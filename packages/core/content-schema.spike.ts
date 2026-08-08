@@ -43,6 +43,10 @@ export const makeSchemas = ({ image }: { image: ImageFunction }) => ({
       province: z.string(),
       postal_code: z.string(),
     }),
+    geo: z.object({
+      lat: z.number(),
+      lng: z.number(),
+    }),
     hours: z.string(),
     phone: z.string(),
     socials: z.object({

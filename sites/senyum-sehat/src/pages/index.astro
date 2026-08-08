@@ -1,7 +1,14 @@
 ---
 import '@fontsource-variable/plus-jakarta-sans';
+import SiteHead from '@wps/core/components/SiteHead.astro';
+import SiteHeader from '@wps/core/components/SiteHeader.astro';
 import Hero from '@wps/core/components/Hero.astro';
 import ServicesGrid from '@wps/core/components/ServicesGrid.astro';
+import Testimonials from '@wps/core/components/Testimonials.astro';
+import FAQ from '@wps/core/components/FAQ.astro';
+import WhatsAppCTA from '@wps/core/components/WhatsAppCTA.astro';
+import SiteFooter from '@wps/core/components/SiteFooter.astro';
+import { whatsappHref } from '@wps/core/lib/whatsapp';
 import { getCollection } from 'astro:content';
 import heroImg from '../assets/hero.jpg';
 import '../styles/global.css';
@@ -9,15 +16,14 @@ import '../styles/global.css';
 const [siteEntry] = await getCollection('site');
 const [homeEntry] = await getCollection('home');
 const site = siteEntry.data;
-const hero = homeEntry.data.hero;
+const home = homeEntry.data;
 const services = (await getCollection('services'))
   .sort((a, b) => a.data.order - b.data.order)
   .map((s) => ({ title: s.data.title, summary: s.data.summary, image: s.data.image }));
+const testimonials = (await getCollection('testimonials')).map((t) => t.data);
+const faqs = (await getCollection('faq')).map((f) => f.data);
 
-// E.164 digits only: no "+", no leading zero. Message is URL-encoded.
-const whatsappHref =
-  `https://wa.me/${site.contact.whatsapp_number}` +
-  `?text=${encodeURIComponent(site.contact.whatsapp_default_message)}`;
+const href = whatsappHref(site.contact.whatsapp_number, site.contact.whatsapp_default_message);
 ---
 
 <!doctype html>
@@ -25,16 +31,28 @@ const whatsappHref =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{site.name}</title>
+    <SiteHead site={site} pageTitle="Beranda" businessType="Dentist" />
   </head>
   <body>
-    <Hero
-      headline={hero.headline}
-      subheadline={hero.subheadline}
-      image={heroImg}
-      ctaLabel={hero.cta_label}
-      whatsappHref={whatsappHref}
-    />
-    <ServicesGrid intro={homeEntry.data.services_intro} services={services} />
+    <SiteHeader name={site.name} tagline={site.tagline} logo={site.logo} whatsappHref={href} ctaLabel={home.hero.cta_label} />
+    <main>
+      <Hero
+        headline={home.hero.headline}
+        subheadline={home.hero.subheadline}
+        image={heroImg}
+        ctaLabel={home.hero.cta_label}
+        whatsappHref={href}
+      />
+      <ServicesGrid intro={home.services_intro} services={services} />
+      <Testimonials intro={home.testimonials_intro} testimonials={testimonials} />
+      <FAQ intro={home.faq_intro} faqs={faqs} />
+      <WhatsAppCTA
+        headline={`Siap memulai perawatan gigi Anda?`}
+        description="Chat kami di WhatsApp, sampaikan keluhan Anda, dan admin kami akan menjadwalkan kunjungan pertama Anda."
+        whatsappHref={href}
+        ctaLabel={home.hero.cta_label}
+      />
+    </main>
+    <SiteFooter name={site.name} tagline={site.tagline} address={site.address} hours={site.hours} phone={site.phone} socials={site.socials} contact={site.contact} />
   </body>
 </html>

@@ -6,6 +6,9 @@ address:
   city: "Jakarta Selatan"
   province: "DKI Jakarta"
   postal_code: "12730"
+geo:
+  lat: -6.2615
+  lng: 106.8097
 hours: "Senin–Sabtu: 09.00–17.00"
 phone: "+62 21 719 1234"
 socials:

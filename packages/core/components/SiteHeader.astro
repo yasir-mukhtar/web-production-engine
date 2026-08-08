@@ -1,0 +1,41 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  name: string;
+  tagline: string;
+  logo: ImageMetadata;
+  whatsappHref: string;
+  ctaLabel: string;
+}
+
+const { name, tagline, logo, whatsappHref, ctaLabel } = Astro.props;
+---
+
+<header class="sticky top-0 z-10 border-b border-line bg-surface/95 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
+    <a href="/" class="flex min-w-0 items-center gap-3">
+      <Picture
+        src={logo}
+        widths={[96, 192]}
+        sizes="48px"
+        formats={['avif', 'webp']}
+        alt=""
+        class="h-12 w-auto"
+      />
+      <span class="min-w-0">
+        <span class="block truncate font-display text-h3 text-ink">{name}</span>
+        <span class="block truncate font-body text-small text-muted">{tagline}</span>
+      </span>
+    </a>
+    <a
+      href={whatsappHref}
+      target="_blank"
+      rel="noopener"
+      class="shrink-0 rounded-button bg-primary px-5 py-2.5 font-body text-small font-semibold text-surface transition-colors duration-fast ease-standard hover:opacity-90"
+    >
+      {ctaLabel}
+    </a>
+  </div>
+</header>

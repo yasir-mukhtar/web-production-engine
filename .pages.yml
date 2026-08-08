@@ -65,6 +65,19 @@ content:
                 label: "Kode pos"
                 description: "Contoh: 12730"
                 type: string
+          - name: geo
+            label: "Koordinat peta"
+            description: "Titik lokasi di peta, untuk tampil di hasil pencarian. Contoh: -6.2615, 106.8097"
+            type: object
+            fields:
+              - name: lat
+                label: "Lintang (latitude)"
+                description: "Angka lintang lokasi. Bisa dilihat di Google Maps dengan klik kanan lalu salin koordinat."
+                type: number
+              - name: lng
+                label: "Bujur (longitude)"
+                description: "Angka bujur lokasi. Bisa dilihat di Google Maps dengan klik kanan lalu salin koordinat."
+                type: number
           - name: hours
             label: "Jam operasional"
             description: "Contoh: Senin–Sabtu: 09.00–17.00"

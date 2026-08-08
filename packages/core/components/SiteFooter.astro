@@ -1,0 +1,60 @@
+---
+interface Props {
+  name: string;
+  tagline: string;
+  address: { street: string; city: string; province: string; postal_code: string };
+  hours: string;
+  phone: string;
+  socials: { instagram?: string; facebook?: string; tiktok?: string; linkedin?: string };
+  contact: { whatsapp_number: string; whatsapp_default_message: string };
+}
+
+const { name, tagline, address, hours, phone, socials, contact } = Astro.props;
+
+const socialLinks = [
+  { label: 'Instagram', href: socials.instagram },
+  { label: 'Facebook', href: socials.facebook },
+  { label: 'TikTok', href: socials.tiktok },
+  { label: 'LinkedIn', href: socials.linkedin },
+].filter((s) => s.href) as { label: string; href: string }[];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line bg-surface-alt">
+  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-3">
+    <div>
+      <p class="font-display text-h3 text-ink">{name}</p>
+      <p class="mt-2 font-body text-small text-muted">{tagline}</p>
+    </div>
+    <div>
+      <p class="font-display text-small font-semibold uppercase tracking-wider text-muted">Alamat & jam</p>
+      <address class="mt-3 font-body text-small not-italic text-muted">
+        {address.street}<br />
+        {address.city}, {address.province} {address.postal_code}
+      </address>
+      <p class="mt-2 font-body text-small text-muted">{hours}</p>
+    </div>
+    <div>
+      <p class="font-display text-small font-semibold uppercase tracking-wider text-muted">Hubungi kami</p>
+      <p class="mt-3 font-body text-small text-muted">WhatsApp: {contact.whatsapp_number}</p>
+      <p class="mt-1 font-body text-small text-muted">Telepon: {phone}</p>
+      {socialLinks.length > 0 && (
+        <ul class="mt-3 flex flex-wrap gap-4">
+          {socialLinks.map((s) => (
+            <li>
+              <a href={s.href} target="_blank" rel="noopener" class="font-body text-small text-ink underline decoration-line underline-offset-4 transition-colors duration-fast ease-standard hover:text-primary">
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <p class="mx-auto max-w-6xl px-6 py-5 font-body text-small text-muted">
+      © {year} {name}. Semua hak dilindungi.
+    </p>
+  </div>
+</footer>

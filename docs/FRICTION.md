@@ -251,3 +251,38 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
   `--transition-duration-fast/slow` in base + both sites.
 - **Would this get worse at 40 sites?** No — the token name lives in the
   base file, so it is fixed once for everyone.
+
+### [P4] First content-contract field change: `geo` added
+- **Contract stressed:** Content
+- **What happened:** Phase 4 mandates geo in the LocalBusiness JSON-LD,
+  but the Phase 2 field list had no coordinates. The schema moved —
+  first real evidence for the field-change log (§8).
+- **What I did instead:** added `site.geo {lat, lng}` to the shared
+  factory, both site.yml files, and .pages.yml with business-language
+  labels ("Bisa dilihat di Google Maps dengan klik kanan lalu salin
+  koordinat").
+- **Would this get worse at 40 sites?** Yes, if this keeps happening —
+  each field change is a portfolio migration. This one was cheap (one
+  optional block) and arguably a Phase 2 omission rather than drift.
+
+### [P4] businessType + baseUrl are code-level props, not content fields
+- **Contract stressed:** Component
+- **What happened:** SiteHead needs the business specialisation (Dentist
+  vs GeneralContractor) and an absolute base URL, neither of which is in
+  the content contract.
+- **What I did instead:** passed both as props from the page (per-site
+  code, like composition). businessType is a business fact — a candidate
+  for the shared schema when a third site needs it. baseUrl stays empty
+  until real domains exist, which gates canonical/OG-url/JSON-LD url+logo.
+- **Would this get worse at 40 sites?** No — one line per page; but it
+  does mean SEO correctness silently depends on remembering to set
+  baseUrl at deploy time (an OPERATIONS.md item).
+
+### [P4] about.md is authored but unrouted
+- **Contract stressed:** Content
+- **What happened:** Phase 2 filled about.md for both sites, but no phase
+  builds an /about page, and the SiteHeader nav has nothing to link to.
+- **What I did instead:** nav is Home + WhatsApp CTA only; about stays
+  content-only until a phase asks for the page.
+- **Would this get worse at 40 sites?** No — it is a page, not a
+  contract decision.
