@@ -42,10 +42,14 @@ jobs:
       fail-fast: false
       matrix:
         site: [senyum-sehat, baja-nusantara]
+    # Coarse gate: matrix and secrets are not available in job-level if, so
+    # this runs whenever ANYTHING relevant changed; the per-step fine gate
+    # below decides which matrix cell actually does work.
     if: >-
       github.event_name == 'workflow_dispatch' ||
       needs.changes.outputs.core == 'true' ||
-      needs.changes.outputs[matrix.site] == 'true'
+      needs.changes.outputs['senyum-sehat'] == 'true' ||
+      needs.changes.outputs['baja-nusantara'] == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -56,14 +60,34 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+
+      # Fine gate: this matrix cell builds only if its own site or core
+      # changed (step-level if may use matrix and needs).
       - name: Build site
+        if: >-
+          github.event_name == 'workflow_dispatch' ||
+          needs.changes.outputs.core == 'true' ||
+          needs.changes.outputs[matrix.site] == 'true'
         run: pnpm --filter @wps/${{ matrix.site }} build
+
       - name: Verify core classes reached output CSS
+        if: >-
+          github.event_name == 'workflow_dispatch' ||
+          needs.changes.outputs.core == 'true' ||
+          needs.changes.outputs[matrix.site] == 'true'
         run: grep -rl "bg-primary" sites/${{ matrix.site }}/dist/
+
       # Guarded so CI stays green until the human adds the secret in
       # pre-flight; the moment CLOUDFLARE_API_TOKEN exists, deploys activate.
+      # secrets can't be read in `if` directly, so it arrives via env.
       - name: Deploy to Cloudflare Workers Static Assets
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+        if: >-
+          (github.event_name == 'workflow_dispatch' ||
+           needs.changes.outputs.core == 'true' ||
+           needs.changes.outputs[matrix.site] == 'true') &&
+          env.HAS_CF_TOKEN == 'true'
+        env:
+          HAS_CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
