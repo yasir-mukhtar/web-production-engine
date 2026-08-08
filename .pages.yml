@@ -259,6 +259,11 @@ content:
             description: "Angka 1 = tampil paling atas. Tulis angka urut: 1, 2, 3, dan seterusnya."
             type: number
             required: true
+          - name: durasi_estimasi
+            label: "Perkiraan durasi"
+            description: "Berapa lama layanan ini berlangsung atau selesai. Contoh: 30–45 menit"
+            type: string
+            required: true
 
       - name: testimonials-senyum
         label: "Testimoni pasien"
@@ -540,6 +545,11 @@ content:
             label: "Urutan tampil"
             description: "Angka 1 = tampil paling atas. Tulis angka urut: 1, 2, 3, dan seterusnya."
             type: number
+            required: true
+          - name: durasi_estimasi
+            label: "Perkiraan durasi"
+            description: "Berapa lama layanan ini berlangsung atau selesai. Contoh: 30–45 menit"
+            type: string
             required: true
 
       - name: testimonials-baja

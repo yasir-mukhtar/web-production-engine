@@ -20,7 +20,7 @@ const site = siteEntry.data;
 const home = homeEntry.data;
 const services = (await getCollection('services'))
   .sort((a, b) => a.data.order - b.data.order)
-  .map((s) => ({ title: s.data.title, summary: s.data.summary, image: s.data.image }));
+  .map((s) => ({ title: s.data.title, summary: s.data.summary, image: s.data.image, durasi_estimasi: s.data.durasi_estimasi }));
 const testimonials = (await getCollection('testimonials')).map((t) => t.data);
 const faqs = (await getCollection('faq')).map((f) => f.data);
 

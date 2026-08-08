@@ -100,6 +100,7 @@ export const makeSchemas = ({ image }: { image: ImageFunction }) => ({
     body: z.string(),
     image: image(),
     order: z.number().int().positive(),
+    durasi_estimasi: z.string(),
   }),
 
   testimonials: z.object({
