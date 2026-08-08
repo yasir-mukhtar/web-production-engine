@@ -1,0 +1,13 @@
+/*
+ * sites/senyum-sehat/src/styles/tokens.css
+ * Klinik Gigi Senyum Sehat — light, warm, high-trust.
+ * Humanist sans, warm teal on warm paper.
+ * Imported AFTER packages/core/tokens.base.css so these values win.
+ */
+@theme {
+  --color-primary: #0f766e;
+  --color-surface: #faf6ef;
+  --color-ink: #1f2e2b;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+}

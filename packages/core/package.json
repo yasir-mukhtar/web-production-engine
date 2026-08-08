@@ -1,0 +1,6 @@
+{
+  "name": "@wps/core",
+  "version": "0.0.1-spike",
+  "private": true,
+  "type": "module"
+}

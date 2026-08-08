@@ -1,0 +1,19 @@
+/*
+ * packages/core/tokens.base.css
+ *
+ * The TOKEN CONTRACT, half 1: token NAMES.
+ * These names are identical across every site, forever.
+ * The VALUES live in each site's src/styles/tokens.css, imported AFTER
+ * this file so the site's @theme block overrides these placeholders.
+ *
+ * `initial` is deliberate: this file defines names, not colours.
+ * A site that fails to define its own values renders transparent
+ * placeholders — the failure is loud, not silent.
+ */
+@theme {
+  --color-primary: initial;
+  --color-surface: initial;
+  --color-ink: initial;
+  --font-display: initial;
+  --font-body: initial;
+}

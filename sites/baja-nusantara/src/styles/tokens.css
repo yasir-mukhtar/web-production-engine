@@ -1,0 +1,13 @@
+/*
+ * sites/baja-nusantara/src/styles/tokens.css
+ * CV Baja Nusantara — near-black, industrial.
+ * Safety orange on near-black, condensed display.
+ * Imported AFTER packages/core/tokens.base.css so these values win.
+ */
+@theme {
+  --color-primary: #ff5a00;
+  --color-surface: #0c0c0e;
+  --color-ink: #e8e6e1;
+  --font-display: "Oswald", "Roboto Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Archivo", ui-sans-serif, system-ui, sans-serif;
+}
