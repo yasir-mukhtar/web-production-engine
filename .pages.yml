@@ -114,8 +114,8 @@ content:
             type: object
             fields:
               - name: title_template
-                label: "Pola judul halaman"
-                description: "Muncul di hasil pencarian Google. Tulis {page} di posisi judul halaman. Contoh: Senyum Sehat — {page}"
+                label: "Akhiran judul halaman"
+                description: "Muncul di hasil pencarian Google. Contoh: Senyum Sehat — Tentang Kami. Bagian 'Tentang Kami' diganti otomatis dengan nama tiap halaman."
                 type: string
               - name: description
                 label: "Deskripsi situs"
