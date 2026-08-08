@@ -15,14 +15,14 @@ const { intro, faqs } = Astro.props;
 <section class="bg-surface py-section">
   <div class="mx-auto max-w-4xl px-6">
     <div class="max-w-2xl">
-      <h2 class="font-display text-h2 text-ink">{intro.title}</h2>
+      <h2 class="font-display tracking-display text-h2 text-ink">{intro.title}</h2>
       <p class="mt-4 font-body text-body text-muted">{intro.description}</p>
     </div>
     <div class="mt-12 border-card border-line divide-y divide-line">
       {
         faqs.map((f) => (
           <details class="group">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-2 py-5 font-display text-h3 text-ink transition-colors duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-2 py-5 font-display tracking-display text-h3 text-ink transition-colors duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
               {f.question}
               <span aria-hidden="true" class="shrink-0 font-body text-muted transition-transform duration-fast ease-standard group-open:rotate-45">+</span>
             </summary>

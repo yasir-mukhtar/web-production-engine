@@ -44,8 +44,9 @@ const href = whatsappHref(site.contact.whatsapp_number, site.contact.whatsapp_de
         ctaLabel={home.hero.cta_label}
         whatsappHref={href}
       />
-      <ServicesGrid intro={home.services_intro} services={services} />
+      {/** Baja leads with proof-of-work and scale — testimonials before services. */}
       <Testimonials intro={home.testimonials_intro} testimonials={testimonials} />
+      <ServicesGrid intro={home.services_intro} services={services} />
       <FAQ intro={home.faq_intro} faqs={faqs} />
       <WhatsAppCTA
         headline={`Ada proyek baja yang perlu dikerjakan?`}

@@ -286,3 +286,40 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
   content-only until a phase asks for the page.
 - **Would this get worse at 40 sites?** No — it is a page, not a
   contract decision.
+
+### [P5] Font-weight cannot be a custom token name
+- **Contract stressed:** Token
+- **What happened:** Tailwind v4 registers BOTH font-family (`--font-*`)
+  and font-weight (`--font-weight-*`) utilities under the same `font-`
+  prefix — a custom `--font-weight-display` would collide with the
+  existing `--font-display` family token. The weight axis could not be
+  tokenised per site this phase.
+- **What I did instead:** weight differentiation comes from the display
+  faces themselves (Oswald renders heavy, Plus Jakarta Sans light) and
+  from the scale/line-height contrast. Known Token Contract naming
+  constraint for the real system.
+- **Would this get worse at 40 sites?** No, but the constraint should be
+  documented in the token names cheat-sheet before the contract hardens.
+
+### [P5] Tracking axis added to the Token Contract
+- **Contract stressed:** Token
+- **What happened:** Letter-spacing is one of the always-varies axes, and
+  the base file had no tracking token.
+- **What I did instead:** added `--tracking-display` to base (initial),
+  per-site values (clinic +0.01em, contractor -0.02em), consumed by every
+  display heading in core. The only Phase 5 core change, and it serves
+  both sites.
+- **Would this get worse at 40 sites?** No — one name in base, values per
+  site.
+
+### [P5] Duotone via a CSS filter chain in `--image-grade`
+- **Contract stressed:** Token
+- **What happened:** True duotone is a per-image asset decision; the PoC
+  needs the treatment to be a token. CSS filters approximate it:
+  `grayscale(1) sepia(1) saturate(5) hue-rotate(-25deg) contrast(1.15)`.
+- **What I did instead:** put the chain in baja's `--image-grade`. It
+  reads as orange duotone over the dark overlay (verified by eye in the
+  390px screenshot). Clinic grade stays near-natural.
+- **Would this get worse at 40 sites?** No — but a real duotone would
+  need per-image assets or a post-processing step, which is a production
+  decision for OPERATIONS.md.
