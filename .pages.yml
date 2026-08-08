@@ -1,20 +1,21 @@
-# Pages CMS — one client, one group; media sources are per-site so the two
+# Pages CMS — one client, one group. Media sources are per-site so the two
 # clients' uploads never land in a shared folder.
 media:
   - name: media-senyum
     label: "Foto Klinik Senyum Sehat"
     input: sites/senyum-sehat/public/media
-    output: /media
+    output: /public/media
     rename: safe
     extensions: [jpg, jpeg, png, webp]
   - name: media-baja
     label: "Foto Baja Nusantara"
     input: sites/baja-nusantara/public/media
-    output: /media
+    output: /public/media
     rename: safe
     extensions: [jpg, jpeg, png, webp]
 
 content:
+  # ─────────────────────────── Klinik Gigi Senyum Sehat ───────────────────────────
   - name: senyum-sehat
     label: "Klinik Gigi Senyum Sehat"
     type: group
@@ -25,24 +26,108 @@ content:
         path: sites/senyum-sehat/content/site.yml
         format: yaml
         fields:
-          - name: business_name
+          - name: name
             label: "Nama usaha"
+            description: "Nama klinik persis seperti di akta atau surat izin."
             type: string
             required: true
           - name: tagline
             label: "Tagline"
+            description: "Kalimat singkat yang menggambarkan klinik, muncul di samping logo."
             type: string
+          - name: logo
+            label: "Logo klinik"
+            description: "Gambar logo dengan latar transparan. Ukuran terbaik di bawah 500 KB."
+            type: image
+            options:
+              media: media-senyum
+          - name: address
+            label: "Alamat"
+            description: "Alamat lengkap usaha. Dipakai di halaman kontak dan saat dibagikan di mesin pencari."
+            type: object
+            fields:
+              - name: street
+                label: "Jalan dan nomor"
+                description: "Contoh: Jl. Kemang Raya No. 12"
+                type: string
+                required: true
+              - name: city
+                label: "Kota"
+                description: "Contoh: Jakarta Selatan"
+                type: string
+                required: true
+              - name: province
+                label: "Provinsi"
+                description: "Contoh: DKI Jakarta"
+                type: string
+                required: true
+              - name: postal_code
+                label: "Kode pos"
+                description: "Contoh: 12730"
+                type: string
+          - name: hours
+            label: "Jam operasional"
+            description: "Contoh: Senin–Sabtu: 09.00–17.00"
+            type: string
+          - name: phone
+            label: "Nomor telepon"
+            description: "Format internasional, dengan tanda +. Contoh: +62 21 719 1234"
+            type: string
+          - name: socials
+            label: "Media sosial"
+            description: "Tautan media sosial usaha. Kosongkan yang tidak dimiliki."
+            type: object
+            fields:
+              - name: instagram
+                label: "Instagram"
+                description: "Tautan lengkap, contoh: https://instagram.com/namaklinik. Kosongkan jika tidak punya."
+                type: string
+              - name: facebook
+                label: "Facebook"
+                description: "Tautan lengkap. Kosongkan jika tidak punya."
+                type: string
+              - name: tiktok
+                label: "TikTok"
+                description: "Tautan lengkap. Kosongkan jika tidak punya."
+                type: string
+              - name: linkedin
+                label: "LinkedIn"
+                description: "Tautan lengkap. Kosongkan jika tidak punya."
+                type: string
           - name: contact
-            label: "Kontak"
+            label: "Kontak WhatsApp"
+            description: "Pengaturan tombol chat WhatsApp di seluruh website."
             type: object
             fields:
               - name: whatsapp_number
-                label: "Nomor WhatsApp (internasional, tanpa + dan tanpa angka 0 di depan)"
+                label: "Nomor WhatsApp"
+                description: "Format internasional tanpa tanda + dan tanpa angka 0 di depan. Contoh: 628123456789"
                 type: string
                 required: true
               - name: whatsapp_default_message
-                label: "Pesan otomatis saat pelanggan klik tombol WhatsApp"
+                label: "Pesan otomatis WhatsApp"
+                description: "Teks yang muncul otomatis saat pelanggan klik tombol WhatsApp di website Anda."
                 type: text
+          - name: seo
+            label: "Pengaturan pencarian (SEO)"
+            description: "Pengaturan tampilan website di hasil pencarian Google dan saat tautan dibagikan."
+            type: object
+            fields:
+              - name: title_template
+                label: "Pola judul halaman"
+                description: "Muncul di hasil pencarian Google. Tulis {page} di posisi judul halaman. Contoh: Senyum Sehat — {page}"
+                type: string
+              - name: description
+                label: "Deskripsi situs"
+                description: "Ringkasan satu-dua kalimat yang muncul di hasil pencarian Google."
+                type: text
+              - name: og_image
+                label: "Gambar pratinjau"
+                description: "Gambar yang muncul saat tautan website dibagikan di WhatsApp/media sosial. Gunakan foto berukuran besar (minimal 1200x630 piksel)."
+                type: image
+                options:
+                  media: media-senyum
+
       - name: home-senyum
         label: "Halaman utama"
         type: file
@@ -51,19 +136,168 @@ content:
         fields:
           - name: hero
             label: "Bagian pembuka"
+            description: "Teks pertama yang dilihat pengunjung."
             type: object
             fields:
               - name: headline
                 label: "Judul utama"
+                description: "Satu kalimat yang menjelaskan mengapa pasien memilih klinik ini."
                 type: string
                 required: true
               - name: subheadline
                 label: "Subjudul"
+                description: "Dua-tiga kalimat pelengkap judul. Sebutkan lokasi dan keunggulan."
                 type: text
               - name: cta_label
                 label: "Teks tombol ajakan"
+                description: "Tulisan di tombol hijau. Contoh: Chat WhatsApp"
                 type: string
+          - name: services_intro
+            label: "Pembuka bagian layanan"
+            description: "Judul dan kalimat pembuka yang tampil di atas daftar layanan."
+            type: object
+            fields:
+              - name: title
+                label: "Judul bagian"
+                description: "Judul yang tampil di atas bagian ini."
+                type: string
+              - name: description
+                label: "Deskripsi bagian"
+                description: "Kalimat pembuka sebelum isi bagian ini."
+                type: text
+          - name: testimonials_intro
+            label: "Pembuka bagian testimoni"
+            description: "Judul dan kalimat pembuka yang tampil di atas daftar testimoni."
+            type: object
+            fields:
+              - name: title
+                label: "Judul bagian"
+                description: "Judul yang tampil di atas bagian ini."
+                type: string
+              - name: description
+                label: "Deskripsi bagian"
+                description: "Kalimat pembuka sebelum isi bagian ini."
+                type: text
+          - name: faq_intro
+            label: "Pembuka bagian pertanyaan"
+            description: "Judul dan kalimat pembuka yang tampil di atas daftar pertanyaan."
+            type: object
+            fields:
+              - name: title
+                label: "Judul bagian"
+                description: "Judul yang tampil di atas bagian ini."
+                type: string
+              - name: description
+                label: "Deskripsi bagian"
+                description: "Kalimat pembuka sebelum isi bagian ini."
+                type: text
 
+      - name: about-senyum
+        label: "Halaman Tentang"
+        type: file
+        path: sites/senyum-sehat/content/about.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: "Judul halaman"
+            description: "Judul yang tampil paling atas di halaman ini."
+            type: string
+            required: true
+          - name: body
+            label: "Isi cerita"
+            description: "Cerita klinik: sejarah, tim, dan cara melayani pasien."
+            type: rich-text
+          - name: image
+            label: "Foto halaman"
+            description: "Foto klinik atau tim. Ukuran terbaik di bawah 1 MB."
+            type: image
+            options:
+              media: media-senyum
+
+      - name: services-senyum
+        label: "Layanan"
+        type: collection
+        path: sites/senyum-sehat/content/services
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: title
+            label: "Nama layanan"
+            description: "Contoh: Pembersihan Karang Gigi (Scaling)"
+            type: string
+            required: true
+          - name: summary
+            label: "Ringkasan"
+            description: "Satu-dua kalimat di kartu layanan. Jelaskan manfaatnya bagi pasien."
+            type: text
+            required: true
+          - name: body
+            label: "Penjelasan lengkap"
+            description: "Detail perawatan: proses, durasi, dan apa yang pasien rasakan."
+            type: rich-text
+          - name: image
+            label: "Foto layanan"
+            description: "Foto terkait layanan ini. Ukuran terbaik di bawah 1 MB."
+            type: image
+            options:
+              media: media-senyum
+          - name: order
+            label: "Urutan tampil"
+            description: "Angka 1 = tampil paling atas. Tulis angka urut: 1, 2, 3, dan seterusnya."
+            type: number
+            required: true
+
+      - name: testimonials-senyum
+        label: "Testimoni pasien"
+        type: collection
+        path: sites/senyum-sehat/content/testimonials
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: quote
+            label: "Kata-kata pasien"
+            description: "Kutipan langsung, boleh dipersingkat agar mudah dibaca."
+            type: text
+            required: true
+          - name: name
+            label: "Nama pasien"
+            description: "Contoh: Ibu Ratna Wulandari"
+            type: string
+            required: true
+          - name: role
+            label: "Pekerjaan / status"
+            description: "Contoh: Ibu rumah tangga"
+            type: string
+          - name: company
+            label: "Keterangan tambahan"
+            description: "Contoh: Pasien sejak 2021. Kosongkan jika tidak perlu."
+            type: string
+          - name: photo
+            label: "Foto pasien"
+            description: "Foto wajah pasien (dengan izin). Ukuran terbaik di bawah 500 KB."
+            type: image
+            options:
+              media: media-senyum
+
+      - name: faq-senyum
+        label: "Pertanyaan umum (FAQ)"
+        type: collection
+        path: sites/senyum-sehat/content/faq
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: question
+            label: "Pertanyaan"
+            description: "Tulis seperti pasien bertanya. Contoh: Apakah perawatan gigi sakit?"
+            type: string
+            required: true
+          - name: answer
+            label: "Jawaban"
+            description: "Jawaban jujur dan lengkap, 2–5 kalimat."
+            type: text
+            required: true
+
+  # ─────────────────────────── CV Baja Nusantara ───────────────────────────
   - name: baja-nusantara
     label: "CV Baja Nusantara"
     type: group
@@ -74,24 +308,108 @@ content:
         path: sites/baja-nusantara/content/site.yml
         format: yaml
         fields:
-          - name: business_name
+          - name: name
             label: "Nama usaha"
+            description: "Nama perusahaan persis seperti di akta atau surat izin."
             type: string
             required: true
           - name: tagline
             label: "Tagline"
+            description: "Kalimat singkat yang menggambarkan perusahaan, muncul di samping logo."
             type: string
+          - name: logo
+            label: "Logo perusahaan"
+            description: "Gambar logo dengan latar transparan. Ukuran terbaik di bawah 500 KB."
+            type: image
+            options:
+              media: media-baja
+          - name: address
+            label: "Alamat"
+            description: "Alamat lengkap usaha. Dipakai di halaman kontak dan saat dibagikan di mesin pencari."
+            type: object
+            fields:
+              - name: street
+                label: "Jalan dan nomor"
+                description: "Contoh: Jl. Margomulyo Indah No. 45"
+                type: string
+                required: true
+              - name: city
+                label: "Kota"
+                description: "Contoh: Surabaya"
+                type: string
+                required: true
+              - name: province
+                label: "Provinsi"
+                description: "Contoh: Jawa Timur"
+                type: string
+                required: true
+              - name: postal_code
+                label: "Kode pos"
+                description: "Contoh: 60138"
+                type: string
+          - name: hours
+            label: "Jam operasional"
+            description: "Contoh: Senin–Jumat: 08.00–17.00, Sabtu: 08.00–12.00"
+            type: string
+          - name: phone
+            label: "Nomor telepon"
+            description: "Format internasional, dengan tanda +. Contoh: +62 31 748 2345"
+            type: string
+          - name: socials
+            label: "Media sosial"
+            description: "Tautan media sosial usaha. Kosongkan yang tidak dimiliki."
+            type: object
+            fields:
+              - name: instagram
+                label: "Instagram"
+                description: "Tautan lengkap, contoh: https://instagram.com/namausaha. Kosongkan jika tidak punya."
+                type: string
+              - name: facebook
+                label: "Facebook"
+                description: "Tautan lengkap. Kosongkan jika tidak punya."
+                type: string
+              - name: tiktok
+                label: "TikTok"
+                description: "Tautan lengkap. Kosongkan jika tidak punya."
+                type: string
+              - name: linkedin
+                label: "LinkedIn"
+                description: "Tautan lengkap. Kosongkan jika tidak punya."
+                type: string
           - name: contact
-            label: "Kontak"
+            label: "Kontak WhatsApp"
+            description: "Pengaturan tombol chat WhatsApp di seluruh website."
             type: object
             fields:
               - name: whatsapp_number
-                label: "Nomor WhatsApp (internasional, tanpa + dan tanpa angka 0 di depan)"
+                label: "Nomor WhatsApp"
+                description: "Format internasional tanpa tanda + dan tanpa angka 0 di depan. Contoh: 628123456789"
                 type: string
                 required: true
               - name: whatsapp_default_message
-                label: "Pesan otomatis saat pelanggan klik tombol WhatsApp"
+                label: "Pesan otomatis WhatsApp"
+                description: "Teks yang muncul otomatis saat pelanggan klik tombol WhatsApp di website Anda."
                 type: text
+          - name: seo
+            label: "Pengaturan pencarian (SEO)"
+            description: "Pengaturan tampilan website di hasil pencarian Google dan saat tautan dibagikan."
+            type: object
+            fields:
+              - name: title_template
+                label: "Pola judul halaman"
+                description: "Muncul di hasil pencarian Google. Tulis {page} di posisi judul halaman. Contoh: Baja Nusantara — {page}"
+                type: string
+              - name: description
+                label: "Deskripsi situs"
+                description: "Ringkasan satu-dua kalimat yang muncul di hasil pencarian Google."
+                type: text
+              - name: og_image
+                label: "Gambar pratinjau"
+                description: "Gambar yang muncul saat tautan website dibagikan di WhatsApp/media sosial. Gunakan foto berukuran besar (minimal 1200x630 piksel)."
+                type: image
+                options:
+                  media: media-baja
+
       - name: home-baja
         label: "Halaman utama"
         type: file
@@ -100,15 +418,163 @@ content:
         fields:
           - name: hero
             label: "Bagian pembuka"
+            description: "Teks pertama yang dilihat pengunjung."
             type: object
             fields:
               - name: headline
                 label: "Judul utama"
+                description: "Satu kalimat yang menjelaskan keahlian perusahaan ini."
                 type: string
                 required: true
               - name: subheadline
                 label: "Subjudul"
+                description: "Dua-tiga kalimat pelengkap judul. Sebutkan lokasi dan jenis pekerjaan."
                 type: text
               - name: cta_label
                 label: "Teks tombol ajakan"
+                description: "Tulisan di tombol. Contoh: Diskusi via WhatsApp"
                 type: string
+          - name: services_intro
+            label: "Pembuka bagian layanan"
+            description: "Judul dan kalimat pembuka yang tampil di atas daftar layanan."
+            type: object
+            fields:
+              - name: title
+                label: "Judul bagian"
+                description: "Judul yang tampil di atas bagian ini."
+                type: string
+              - name: description
+                label: "Deskripsi bagian"
+                description: "Kalimat pembuka sebelum isi bagian ini."
+                type: text
+          - name: testimonials_intro
+            label: "Pembuka bagian testimoni"
+            description: "Judul dan kalimat pembuka yang tampil di atas daftar testimoni."
+            type: object
+            fields:
+              - name: title
+                label: "Judul bagian"
+                description: "Judul yang tampil di atas bagian ini."
+                type: string
+              - name: description
+                label: "Deskripsi bagian"
+                description: "Kalimat pembuka sebelum isi bagian ini."
+                type: text
+          - name: faq_intro
+            label: "Pembuka bagian pertanyaan"
+            description: "Judul dan kalimat pembuka yang tampil di atas daftar pertanyaan."
+            type: object
+            fields:
+              - name: title
+                label: "Judul bagian"
+                description: "Judul yang tampil di atas bagian ini."
+                type: string
+              - name: description
+                label: "Deskripsi bagian"
+                description: "Kalimat pembuka sebelum isi bagian ini."
+                type: text
+
+      - name: about-baja
+        label: "Halaman Tentang"
+        type: file
+        path: sites/baja-nusantara/content/about.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: "Judul halaman"
+            description: "Judul yang tampil paling atas di halaman ini."
+            type: string
+            required: true
+          - name: body
+            label: "Isi cerita"
+            description: "Cerita perusahaan: sejarah, bengkel, dan cara bekerja."
+            type: rich-text
+          - name: image
+            label: "Foto halaman"
+            description: "Foto bengkel atau hasil kerja. Ukuran terbaik di bawah 1 MB."
+            type: image
+            options:
+              media: media-baja
+
+      - name: services-baja
+        label: "Layanan / Pekerjaan"
+        type: collection
+        path: sites/baja-nusantara/content/services
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: title
+            label: "Nama pekerjaan"
+            description: "Contoh: Baja Struktural"
+            type: string
+            required: true
+          - name: summary
+            label: "Ringkasan"
+            description: "Satu-dua kalimat di kartu layanan. Jelaskan manfaatnya bagi pemilik proyek."
+            type: text
+            required: true
+          - name: body
+            label: "Penjelasan lengkap"
+            description: "Detail pekerjaan: proses, material, dan jaminan."
+            type: rich-text
+          - name: image
+            label: "Foto pekerjaan"
+            description: "Foto contoh hasil pekerjaan. Ukuran terbaik di bawah 1 MB."
+            type: image
+            options:
+              media: media-baja
+          - name: order
+            label: "Urutan tampil"
+            description: "Angka 1 = tampil paling atas. Tulis angka urut: 1, 2, 3, dan seterusnya."
+            type: number
+            required: true
+
+      - name: testimonials-baja
+        label: "Testimoni klien"
+        type: collection
+        path: sites/baja-nusantara/content/testimonials
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: quote
+            label: "Kata-kata klien"
+            description: "Kutipan langsung, boleh dipersingkat agar mudah dibaca."
+            type: text
+            required: true
+          - name: name
+            label: "Nama klien"
+            description: "Contoh: Bapak Hendra Gunawan"
+            type: string
+            required: true
+          - name: role
+            label: "Jabatan"
+            description: "Contoh: Project Manager"
+            type: string
+          - name: company
+            label: "Nama perusahaan"
+            description: "Contoh: PT Surya Logistik"
+            type: string
+          - name: photo
+            label: "Foto proyek"
+            description: "Foto proyek terkait (bukan wajah). Ukuran terbaik di bawah 500 KB."
+            type: image
+            options:
+              media: media-baja
+
+      - name: faq-baja
+        label: "Pertanyaan umum (FAQ)"
+        type: collection
+        path: sites/baja-nusantara/content/faq
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: question
+            label: "Pertanyaan"
+            description: "Tulis seperti pelanggan bertanya. Contoh: Apakah bisa fabrikasi sesuai gambar kerja kami?"
+            type: string
+            required: true
+          - name: answer
+            label: "Jawaban"
+            description: "Jawaban jujur dan lengkap, 2–5 kalimat."
+            type: text
+            required: true

@@ -37,6 +37,12 @@ Do not editorialise. Just record the want.
 |---|---|---|---|---|
 | P0 | both | Bundled web fonts (Plus Jakarta Sans / Oswald) | Phase 0 scope: no deps beyond the locked list | System-ui fallbacks in token stacks; fonts arrive with art direction (Block 3/5) |
 | P0 | both | More token names (radius, shadow, type scale, motion) | Phase 0 minimum is five tokens | Deferred to Block 5 (art direction) where the values earn the names |
+| P2 | senyum-sehat | team[] (Tim Dokter) | Rule of Three — one site needs it | site-local/ in Phase 6 |
+| P2 | baja-nusantara | projects[] (Proyek) | Rule of Three — one site needs it | site-local/ in Phase 6 |
+| P2 | both | Hero image field in content | Not in the phase field list | Art direction phase decides how the hero image is delivered |
+| P2 | both | Pricing | Non-goal; vision defers pricing | — |
+| P2 | senyum-sehat | Certifications | Neither client needs them in scope | — |
+| P2 | baja-nusantara | Client logos | Neither client needs them in scope | — |
 
 ---
 
@@ -170,3 +176,42 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
   version from package.json, so pnpm version stays single-sourced.
 - **Would this get worse at 40 sites?** No — it removes a whole class of
   version drift in the template.
+
+### [P2] image() does not resolve "/media/..." — needs "/public/media/..."
+- **Contract stressed:** Content
+- **What happened:** The shared factory's image() fields failed at build
+  with ImageNotFound for every "/media/..." path. Traced through
+  vite-plugin-assets: the content-image loader resolves the frontmatter
+  string via Vite's resolver, then emitImageMetadata() does
+  `pathToFileURL(id)` — a literal filesystem read. "/media/..." resolves
+  against the site root, missing the public/ dir entirely. Public-URL
+  forms are NOT mapped to the public folder in Astro 6.4.8.
+- **What I did instead:** content image values and Pages CMS media output
+  now use "/public/media/..." (root-absolute into the site's own public
+  dir). The CMS writes the same form the build can resolve. Verified the
+  emitted output: images get optimized into /_astro/*.hashed.jpg.
+- **Would this get worse at 40 sites?** No, but it must live in the site
+  template + media config, or every client's first upload breaks the build
+  silently-ish (loud error, confusing cause).
+
+### [P2] E2.4's grep pattern collides with the phase's own `order` field
+- **Contract stressed:** Content
+- **What happened:** E2.4 greps `^(sections|layout|order|template):` and
+  expects nothing, but task 2 mandates `order` in services/*.md. The only
+  matches are that mandated per-item display-order field — within-collection
+  ordering, not page/section composition.
+- **What I did instead:** kept `order` (task 2's letter), verified the
+  page-builder boundary itself is clean (no sections/layout/template keys,
+  nothing in .pages.yml). Noted here so the eval pattern isn't re-litigated.
+- **Would this get worse at 40 sites?** No — the boundary that matters is
+  page composition, and it held.
+
+### [P2] packages/core must declare astro as a devDependency
+- **Contract stressed:** Content
+- **What happened:** The shared schema file imports 'astro/zod' and
+  'astro/content/config' types, but packages/core had no astro dependency —
+  TS could not resolve, and pnpm's strict linking means the site's astro
+  was not visible from core.
+- **What I did instead:** `devDependencies: { astro: ^6.4.8 }` in core —
+  runtime consumers bring their own astro, so dev is the right bucket.
+- **Would this get worse at 40 sites?** No — one line in the core package.

@@ -1,5 +1,22 @@
-business_name: "Klinik Gigi Senyum Sehat"
+name: "Klinik Gigi Senyum Sehat"
 tagline: "Senyum sehat, percaya diri setiap hari"
+logo: "/public/media/senyum/logo.png"
+address:
+  street: "Jl. Kemang Raya No. 12"
+  city: "Jakarta Selatan"
+  province: "DKI Jakarta"
+  postal_code: "12730"
+hours: "Senin–Sabtu: 09.00–17.00"
+phone: "+62 21 719 1234"
+socials:
+  instagram: "https://instagram.com/senyumsehat.klinik"
+  facebook: "https://facebook.com/senyumsehat.klinik"
+  tiktok: ""
+  linkedin: ""
 contact:
   whatsapp_number: "6281234567890"
   whatsapp_default_message: "Halo, saya ingin bertanya tentang layanan Klinik Gigi Senyum Sehat"
+seo:
+  title_template: "Senyum Sehat — {page}"
+  description: "Klinik gigi di Jakarta Selatan dengan dokter berpengalaman. Perawatan gigi modern untuk seluruh keluarga, dari pembersihan karang gigi hingga implan."
+  og_image: "/public/media/senyum/hero.jpg"

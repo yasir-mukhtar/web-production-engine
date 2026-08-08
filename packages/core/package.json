@@ -2,5 +2,8 @@
   "name": "@wps/core",
   "version": "0.0.1-spike",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "astro": "^6.4.8"
+  }
 }

@@ -7,6 +7,11 @@ const [siteEntry] = await getCollection('site');
 const [homeEntry] = await getCollection('home');
 const site = siteEntry.data;
 const hero = homeEntry.data.hero;
+// TEMP (Phase 2 image() proof): queried so the shared factory's image()
+// fields are exercised at build. Replaced by ServicesGrid in Phase 4.
+const services = (await getCollection('services')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 
 // E.164 digits only: no "+", no leading zero. Message is URL-encoded.
 const whatsappHref =
@@ -28,5 +33,7 @@ const whatsappHref =
       ctaLabel={hero.cta_label}
       whatsappHref={whatsappHref}
     />
+    <!-- TEMP (Phase 2 image() proof): replaced by ServicesGrid in Phase 4 -->
+    {services.slice(0, 1).map((s) => <img src={s.data.image.src} alt={s.data.title} />)}
   </body>
 </html>

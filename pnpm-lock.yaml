@@ -8,7 +8,11 @@ importers:
 
   .: {}
 
-  packages/core: {}
+  packages/core:
+    devDependencies:
+      astro:
+        specifier: ^6.4.8
+        version: 6.4.8(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.4)
 
   sites/baja-nusantara:
     dependencies:
