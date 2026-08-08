@@ -54,6 +54,10 @@ Before adding anything, ask:
 
 - Node **22.12+** (Astro 6 requires it) — pinned in `engines` and CI.
 - pnpm workspaces: `packages/core`, `sites/*`. Install with `pnpm install`.
+- **Validate `.github/workflows/*` edits with `actionlint` before pushing**
+  (brew install actionlint). GitHub rejects context misuse (`matrix` in
+  job-level `if`, `secrets` in any `if`) at load time with no error
+  message — actionlint names the exact line.
 - Astro 6.4.x, **static output, no adapter**.
 - Tailwind CSS v4.3.x via `@tailwindcss/vite`.
 - Token pipeline (the four load-bearing lines, in `src/styles/global.css`):

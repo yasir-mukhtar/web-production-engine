@@ -146,3 +146,27 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
   the moment the secret lands. No workflow edit needed later.
 - **Would this get worse at 40 sites?** No — the guard is in the shared
   template, and it makes the pre-flight handoff explicit.
+
+### [P1] GitHub Actions context availability bit me twice in one file
+- **Contract stressed:** Operations
+- **What happened:** `matrix` is not available in job-level `if`
+  (only github/inputs/needs/vars), and `secrets` is not available in `if`
+  at ANY level — the first push failed to load with no error message, and
+  `gh run view` only said "likely failed because of a workflow file issue".
+- **What I did instead:** installed `actionlint` (brew), which named both
+  errors precisely. Restructured: coarse job-level gate with static site
+  names, fine per-step gate using `matrix` at step level, and the secret
+  check bridged through `env: HAS_CF_TOKEN: ${{ secrets... != '' }}` with
+  `if: env.HAS_CF_TOKEN == 'true'`.
+- **Would this get worse at 40 sites?** No — the template now embeds the
+  pattern, and actionlint runs locally before any push.
+
+### [P1] pnpm/action-setup@v4 rejects a version input next to packageManager
+- **Contract stressed:** Operations
+- **What happened:** `version: 9` in the action plus `packageManager:
+  pnpm@9.15.9` in package.json → `ERR_PNPM_BAD_PM_VERSION` on the second
+  CI run.
+- **What I did instead:** omitted `version`; the action reads the pinned
+  version from package.json, so pnpm version stays single-sourced.
+- **Would this get worse at 40 sites?** No — it removes a whole class of
+  version drift in the template.
