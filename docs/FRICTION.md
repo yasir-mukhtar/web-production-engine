@@ -43,6 +43,8 @@ Do not editorialise. Just record the want.
 | P2 | both | Pricing | Non-goal; vision defers pricing | — |
 | P2 | senyum-sehat | Certifications | Neither client needs them in scope | — |
 | P2 | baja-nusantara | Client logos | Neither client needs them in scope | — |
+| P6 | both | Promote team[]/projects[] into the shared schema | Rule of Three — the entire point of Phase 6 | Quarantined in site-local with inline schemas |
+| P6 | both | .pages.yml entries for site-local collections | E6.5 forbids them; keeps the shared contract clean | Editors cannot edit site-local content via CMS (logged consequence) |
 
 ---
 
@@ -323,3 +325,31 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
 - **Would this get worse at 40 sites?** No — but a real duotone would
   need per-image assets or a post-processing step, which is a production
   decision for OPERATIONS.md.
+
+### [P6] Drift over budget on both sites — reported honestly, not gamed
+- **Contract stressed:** Component
+- **What happened:** senyum-sehat 74/257 = **28.8%**; baja-nusantara
+  48/234 = **20.5%**. The 10% budget assumes a fuller site; the PoC slice
+  is one page deep (no layout, no about page, minimal styles), so any
+  genuine signature moment blows the denominator. Shrinking the components
+  to fit would have been gaming the metric.
+- **What I did instead:** reported the numbers as measured; drift job is
+  wired into CI and WILL go red until either the sites grow or the budget
+  is renegotiated. First real data for §9-C: a thin-slice site consumes
+  21–29% of its source as its signature moment; a full site (8+ pages,
+  layouts) would dilute the same absolute lines well under 10%.
+- **Would this get worse at 40 sites?** The metric is denominator-
+  sensitive and needs a definition decision (count shared-core lines in
+  the denominator? exclude site styles?) before it can gate real clients.
+
+### [P6] Site-local content is not CMS-editable
+- **Contract stressed:** Content
+- **What happened:** team/ and proyek/ collections live in each site's
+  content dir with inline schemas — but .pages.yml has no entry for them
+  (by design, per E6.5). Consequence: the clinic owner cannot edit her
+  doctors, and the contractor cannot edit his projects, via Pages CMS.
+- **What I did instead:** accepted it this phase; logged as a real
+  consequence of the quarantine rule. A per-site .pages.yml scoping
+  mechanism is an open problem (§9-A candidate).
+- **Would this get worse at 40 sites?** Yes — every site-local moment is
+  invisible to its client unless the CMS supports path-scoped collections.

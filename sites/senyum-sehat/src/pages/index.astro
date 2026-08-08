@@ -8,6 +8,7 @@ import Testimonials from '@wps/core/components/Testimonials.astro';
 import FAQ from '@wps/core/components/FAQ.astro';
 import WhatsAppCTA from '@wps/core/components/WhatsAppCTA.astro';
 import SiteFooter from '@wps/core/components/SiteFooter.astro';
+import TimDokter from '../site-local/TimDokter.astro';
 import { whatsappHref } from '@wps/core/lib/whatsapp';
 import { getCollection } from 'astro:content';
 import heroImg from '../assets/hero.jpg';
@@ -22,6 +23,7 @@ const services = (await getCollection('services'))
   .map((s) => ({ title: s.data.title, summary: s.data.summary, image: s.data.image }));
 const testimonials = (await getCollection('testimonials')).map((t) => t.data);
 const faqs = (await getCollection('faq')).map((f) => f.data);
+const doctors = (await getCollection('team')).map((t) => t.data);
 
 const href = whatsappHref(site.contact.whatsapp_number, site.contact.whatsapp_default_message);
 ---
@@ -44,6 +46,7 @@ const href = whatsappHref(site.contact.whatsapp_number, site.contact.whatsapp_de
         whatsappHref={href}
       />
       <ServicesGrid intro={home.services_intro} services={services} />
+      <TimDokter doctors={doctors} whatsappNumber={site.contact.whatsapp_number} />
       <Testimonials intro={home.testimonials_intro} testimonials={testimonials} />
       <FAQ intro={home.faq_intro} faqs={faqs} />
       <WhatsAppCTA

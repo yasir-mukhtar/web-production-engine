@@ -1,0 +1,47 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Proyek {
+  title: string;
+  client: string;
+  description: string;
+  image: ImageMetadata;
+}
+
+interface Props {
+  projects: Proyek[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="bg-surface py-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <h2 class="font-display tracking-display text-h2 text-ink">Proyek pilihan</h2>
+    <p class="mt-4 max-w-2xl font-body text-body text-muted">Geser untuk melihat hasil kerja yang sudah berdiri.</p>
+  </div>
+  <div class="mt-12 flex snap-x snap-mandatory gap-gutter overflow-x-auto px-6 pb-4" aria-label="Daftar proyek selesai">
+    {
+      projects.map((p) => (
+        <article class="relative w-72 shrink-0 snap-start overflow-hidden border-card border-line bg-surface-alt">
+          <Picture
+            src={p.image}
+            widths={[480, 800]}
+            sizes="288px"
+            formats={['avif', 'webp']}
+            alt={p.title}
+            loading="lazy"
+            class="image-grade aspect-card w-full object-cover"
+          />
+          <div class="absolute inset-0 bg-overlay opacity-overlay" aria-hidden="true" />
+          <div class="absolute inset-x-0 bottom-0 p-card">
+            <h3 class="font-display tracking-display text-h3 text-surface">{p.title}</h3>
+            <p class="font-body text-small text-surface/80">{p.client}</p>
+            <p class="mt-1 font-body text-small text-surface/70">{p.description}</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

@@ -94,3 +94,18 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --config wrangler.jsonc
           workingDirectory: sites/${{ matrix.site }}
+
+  # The drift metric — the site-local share must stay under 10%, and the
+  # number must never be a surprise. Runs on every push.
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Drift metric
+        run: node scripts/drift.mjs

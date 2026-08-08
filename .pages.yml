@@ -523,7 +523,7 @@ content:
             required: true
           - name: summary
             label: "Ringkasan"
-            description: "Satu-dua kalimat di kartu layanan. Jelaskan manfaatnya bagi pemilik proyek."
+            description: "Satu-dua kalimat di kartu layanan. Jelaskan manfaatnya bagi pemilik bangunan."
             type: text
             required: true
           - name: body
@@ -531,7 +531,7 @@ content:
             description: "Detail pekerjaan: proses, material, dan jaminan."
             type: rich-text
           - name: image
-            label: "Foto pekerjaan"
+            label: "Foto contoh pekerjaan"
             description: "Foto contoh hasil pekerjaan. Ukuran terbaik di bawah 1 MB."
             type: image
             options:
@@ -561,15 +561,15 @@ content:
             required: true
           - name: role
             label: "Jabatan"
-            description: "Contoh: Project Manager"
+            description: "Contoh: Pengawas Lapangan"
             type: string
           - name: company
             label: "Nama perusahaan"
             description: "Contoh: PT Surya Logistik"
             type: string
           - name: photo
-            label: "Foto proyek"
-            description: "Foto proyek terkait (bukan wajah). Ukuran terbaik di bawah 500 KB."
+            label: "Foto contoh pekerjaan"
+            description: "Foto contoh hasil pekerjaan terkait (bukan wajah). Ukuran terbaik di bawah 500 KB."
             type: image
             options:
               media: media-baja
