@@ -1,0 +1,53 @@
+/*
+ * sites/kopi-tiga/src/styles/tokens.css
+ * Kopi Tiga — small-batch coffee roaster, Bandung.
+ * Espresso brown on kraft paper, warm serif display, medium radius,
+ * rich warm-graded imagery. A third direction, not a blend.
+ */
+@theme {
+  --color-primary: #6f4a2e;
+  --color-surface: #f5ecdf;
+  --color-surface-alt: #ece0cd;
+  --color-ink: #2b2018;
+  --color-muted: #7d6b57;
+  --color-accent: #d99a3d;
+  --color-line: #e0d2bc;
+  --color-overlay: #2b2018;
+  --opacity-overlay: 0.35;
+
+  --font-display: "Fraunces Variable", "Fraunces", Georgia, serif;
+  --font-body: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --tracking-display: -0.005em;
+
+  --text-display: clamp(2.6rem, 5vw, 4.2rem);
+  --text-display--line-height: 1.05;
+  --text-h2: clamp(1.8rem, 3vw, 2.4rem);
+  --text-h2--line-height: 1.15;
+  --text-h3: 1.3rem;
+  --text-h3--line-height: 1.3;
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+
+  --spacing-section: 6rem;
+  --spacing-card: 1.5rem;
+  --spacing-gutter: 1.75rem;
+
+  --radius-card: 0.875rem;
+  --radius-button: 999px;
+  --radius-image: 0.75rem;
+
+  --shadow-card: 0 16px 32px -16px rgb(43 32 24 / 0.25);
+
+  --border-width-card: 1px;
+
+  --transition-duration-fast: 150ms;
+  --transition-duration-slow: 400ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --aspect-card: 4 / 3;
+  --aspect-hero: 16 / 9;
+  --image-grade: sepia(0.28) saturate(1.12) contrast(1.02);
+}

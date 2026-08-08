@@ -19,8 +19,11 @@ interface Props {
   /** Page name substituted into the title template ({page}). */
   pageTitle: string;
   pageDescription?: string;
-  /** LocalBusiness specialisation — per-site business fact, passed in code. */
-  businessType: 'Dentist' | 'GeneralContractor';
+  /** LocalBusiness specialisation — per-site business fact, passed in code.
+   *  FINDING (Phase 8 Task 1): this union was site-2-shaped; site 3 needed
+   *  CafeOrCoffeeShop. The vocabulary grows with each real client — a
+   *  Rule-of-Three candidate for moving into the shared schema as content. */
+  businessType: 'Dentist' | 'GeneralContractor' | 'CafeOrCoffeeShop';
   /** Absolute base URL; canonical/OG-url/JSON-LD url+logo are emitted only
    *  when it is set (real domains arrive after deploy). */
   baseUrl?: string;

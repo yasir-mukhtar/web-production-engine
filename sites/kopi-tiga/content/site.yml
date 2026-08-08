@@ -1,0 +1,25 @@
+name: "Kopi Tiga"
+tagline: "Sangrai kecil, rasa besar"
+logo: "/public/media/kopi-tiga/logo.png"
+address:
+  street: "Jl. Cihampelas No. 45"
+  city: "Bandung"
+  province: "Jawa Barat"
+  postal_code: "40131"
+geo:
+  lat: -6.9039
+  lng: 107.6111
+hours: "Selasa–Minggu: 08.00–18.00"
+phone: "+62 22 730 4567"
+socials:
+  instagram: "https://instagram.com/kopitiga.bdg"
+  facebook: ""
+  tiktok: "https://tiktok.com/@kopitiga.bdg"
+  linkedin: ""
+contact:
+  whatsapp_number: "6285722113344"
+  whatsapp_default_message: "Halo, saya ingin bertanya tentang kopi di Kopi Tiga"
+seo:
+  title_template: "Kopi Tiga — {page}"
+  description: "Roastery kecil di Bandung yang menyangrai biji kopi Nusantara setiap minggu. Single origin, blend, jasa roasting, dan kelas seduh."
+  og_image: "/public/media/kopi-tiga/hero.jpg"

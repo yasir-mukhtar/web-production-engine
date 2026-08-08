@@ -4,6 +4,13 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      # Canary-first fan-out: set to a single site name to deploy ONLY that
+      # site (others still build). Empty = deploy everything.
+      canary:
+        description: 'Deploy only this site (e.g. kopi-tiga). Empty = all sites'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -18,6 +25,7 @@ jobs:
       core: ${{ steps.filter.outputs.core }}
       senyum-sehat: ${{ steps.filter.outputs.senyum-sehat }}
       baja-nusantara: ${{ steps.filter.outputs.baja-nusantara }}
+      kopi-tiga: ${{ steps.filter.outputs.kopi-tiga }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -33,6 +41,8 @@ jobs:
               - 'sites/senyum-sehat/**'
             baja-nusantara:
               - 'sites/baja-nusantara/**'
+            kopi-tiga:
+              - 'sites/kopi-tiga/**'
 
   build:
     name: Build & deploy ${{ matrix.site }}
@@ -41,7 +51,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        site: [senyum-sehat, baja-nusantara]
+        site: [senyum-sehat, baja-nusantara, kopi-tiga]
     # Coarse gate: matrix and secrets are not available in job-level if, so
     # this runs whenever ANYTHING relevant changed; the per-step fine gate
     # below decides which matrix cell actually does work.
@@ -49,7 +59,8 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       needs.changes.outputs.core == 'true' ||
       needs.changes.outputs['senyum-sehat'] == 'true' ||
-      needs.changes.outputs['baja-nusantara'] == 'true'
+      needs.changes.outputs['baja-nusantara'] == 'true' ||
+      needs.changes.outputs['kopi-tiga'] == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -82,6 +93,7 @@ jobs:
       # secrets can't be read in `if` directly, so it arrives via env.
       - name: Deploy to Cloudflare Workers Static Assets
         if: >-
+          (github.event.inputs.canary == '' || matrix.site == github.event.inputs.canary) &&
           (github.event_name == 'workflow_dispatch' ||
            needs.changes.outputs.core == 'true' ||
            needs.changes.outputs[matrix.site] == 'true') &&
