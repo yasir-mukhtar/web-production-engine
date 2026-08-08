@@ -2,7 +2,7 @@
   "name": "baja-nusantara",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404"
+    "not_found_handling": "404-page"
   },
   "compatibility_date": "2026-08-01"
 }
