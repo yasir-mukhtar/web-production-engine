@@ -1,0 +1,114 @@
+# Pages CMS — one client, one group; media sources are per-site so the two
+# clients' uploads never land in a shared folder.
+media:
+  - name: media-senyum
+    label: "Foto Klinik Senyum Sehat"
+    input: sites/senyum-sehat/public/media
+    output: /media
+    rename: safe
+    extensions: [jpg, jpeg, png, webp]
+  - name: media-baja
+    label: "Foto Baja Nusantara"
+    input: sites/baja-nusantara/public/media
+    output: /media
+    rename: safe
+    extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: senyum-sehat
+    label: "Klinik Gigi Senyum Sehat"
+    type: group
+    items:
+      - name: site-senyum
+        label: "Pengaturan situs"
+        type: file
+        path: sites/senyum-sehat/content/site.yml
+        format: yaml
+        fields:
+          - name: business_name
+            label: "Nama usaha"
+            type: string
+            required: true
+          - name: tagline
+            label: "Tagline"
+            type: string
+          - name: contact
+            label: "Kontak"
+            type: object
+            fields:
+              - name: whatsapp_number
+                label: "Nomor WhatsApp (internasional, tanpa + dan tanpa angka 0 di depan)"
+                type: string
+                required: true
+              - name: whatsapp_default_message
+                label: "Pesan otomatis saat pelanggan klik tombol WhatsApp"
+                type: text
+      - name: home-senyum
+        label: "Halaman utama"
+        type: file
+        path: sites/senyum-sehat/content/home.md
+        format: yaml-frontmatter
+        fields:
+          - name: hero
+            label: "Bagian pembuka"
+            type: object
+            fields:
+              - name: headline
+                label: "Judul utama"
+                type: string
+                required: true
+              - name: subheadline
+                label: "Subjudul"
+                type: text
+              - name: cta_label
+                label: "Teks tombol ajakan"
+                type: string
+
+  - name: baja-nusantara
+    label: "CV Baja Nusantara"
+    type: group
+    items:
+      - name: site-baja
+        label: "Pengaturan situs"
+        type: file
+        path: sites/baja-nusantara/content/site.yml
+        format: yaml
+        fields:
+          - name: business_name
+            label: "Nama usaha"
+            type: string
+            required: true
+          - name: tagline
+            label: "Tagline"
+            type: string
+          - name: contact
+            label: "Kontak"
+            type: object
+            fields:
+              - name: whatsapp_number
+                label: "Nomor WhatsApp (internasional, tanpa + dan tanpa angka 0 di depan)"
+                type: string
+                required: true
+              - name: whatsapp_default_message
+                label: "Pesan otomatis saat pelanggan klik tombol WhatsApp"
+                type: text
+      - name: home-baja
+        label: "Halaman utama"
+        type: file
+        path: sites/baja-nusantara/content/home.md
+        format: yaml-frontmatter
+        fields:
+          - name: hero
+            label: "Bagian pembuka"
+            type: object
+            fields:
+              - name: headline
+                label: "Judul utama"
+                type: string
+                required: true
+              - name: subheadline
+                label: "Subjudul"
+                type: text
+              - name: cta_label
+                label: "Teks tombol ajakan"
+                type: string

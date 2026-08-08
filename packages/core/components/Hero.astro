@@ -1,0 +1,28 @@
+---
+interface Props {
+  headline: string;
+  subheadline: string;
+  /** Optional for now; wired to astro:assets in a later phase. */
+  image?: { src: string; alt: string };
+  ctaLabel: string;
+  whatsappHref: string;
+}
+
+const { headline, subheadline, image, ctaLabel, whatsappHref } = Astro.props;
+---
+
+<section class="bg-surface text-ink">
+  <div class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="font-display text-4xl font-semibold leading-tight">{headline}</h1>
+    <p class="mt-4 text-lg leading-relaxed">{subheadline}</p>
+    {image && <img src={image.src} alt={image.alt} class="mt-8 w-full" />}
+    <a
+      href={whatsappHref}
+      class="mt-8 inline-block bg-primary px-6 py-3 font-semibold text-surface"
+      target="_blank"
+      rel="noopener"
+    >
+      {ctaLabel}
+    </a>
+  </div>
+</section>

@@ -115,3 +115,34 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
   exported per session.
 - **Would this get worse at 40 sites?** No — one-time per machine, but it
   should be written into the onboarding runbook (OPERATIONS.md).
+
+### [P1] Astro 6 API drift: `glob` loader moved to `astro/loaders`
+- **Contract stressed:** Component
+- **What happened:** `import { glob } from 'astro:content'` resolved to
+  `undefined` in Astro 6.4.8 — the `glob()` loader is exported from
+  `astro/loaders`. Most online examples (including older Astro 5 docs) show
+  the old import; `astro sync` fails loudly, so the failure mode was good.
+- **What I did instead:** split the import; verified the export in
+  `node_modules/astro/dist/content/loaders/index.d.ts` before changing.
+- **Would this get worse at 40 sites?** No — one fix per codebase, and the
+  site template carries it forward.
+
+### [P1] Astro 6 API drift: legacy `type:` + `loader` combination rejected
+- **Contract stressed:** Content
+- **What happened:** `defineCollection({ type: 'data', loader: glob(...) })`
+  is rejected — the legacy `type: 'content'|'data'` collections and the
+  loader-based collections are disjoint unions. The current form is
+  loader-only; the glob loader infers content-vs-data from file extension.
+- **What I did instead:** dropped `type` from both collections.
+- **Would this get worse at 40 sites?** No — the shared schema factory
+  (Phase 2) must use the loader-only form in each site's content.config.ts.
+
+### [P1] Deploy step guarded on secret presence
+- **Contract stressed:** Operations
+- **What happened:** `CLOUDFLARE_API_TOKEN` doesn't exist yet (pre-flight
+  not done), so an unguarded deploy job would make every push red.
+- **What I did instead:** `if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}`
+  on the wrangler step — CI is green now and deploys activate automatically
+  the moment the secret lands. No workflow edit needed later.
+- **Would this get worse at 40 sites?** No — the guard is in the shared
+  template, and it makes the pre-flight handoff explicit.

@@ -19,3 +19,6 @@ build/
 # Vercel / Netlify
 .vercel
 .netlify
+
+# Obsidian vault config is machine-local
+.obsidian/

@@ -1,0 +1,72 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # Path filtering: a change to one site rebuilds only that site; a change
+  # to packages/core (or the lockfile/workflow) rebuilds both. This is what
+  # makes canary-first fan-out possible in Phase 8.
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.filter.outputs.core }}
+      senyum-sehat: ${{ steps.filter.outputs.senyum-sehat }}
+      baja-nusantara: ${{ steps.filter.outputs.baja-nusantara }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            core:
+              - 'packages/core/**'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - '.github/workflows/**'
+            senyum-sehat:
+              - 'sites/senyum-sehat/**'
+            baja-nusantara:
+              - 'sites/baja-nusantara/**'
+
+  build:
+    name: Build & deploy ${{ matrix.site }}
+    needs: changes
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        site: [senyum-sehat, baja-nusantara]
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      needs.changes.outputs.core == 'true' ||
+      needs.changes.outputs[matrix.site] == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build site
+        run: pnpm --filter @wps/${{ matrix.site }} build
+      - name: Verify core classes reached output CSS
+        run: grep -rl "bg-primary" sites/${{ matrix.site }}/dist/
+      # Guarded so CI stays green until the human adds the secret in
+      # pre-flight; the moment CLOUDFLARE_API_TOKEN exists, deploys activate.
+      - name: Deploy to Cloudflare Workers Static Assets
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.jsonc
+          workingDirectory: sites/${{ matrix.site }}

@@ -1,6 +1,17 @@
 ---
-import SmokeTest from '@wps/core/components/SmokeTest.astro';
+import Hero from '@wps/core/components/Hero.astro';
+import { getCollection } from 'astro:content';
 import '../styles/global.css';
+
+const [siteEntry] = await getCollection('site');
+const [homeEntry] = await getCollection('home');
+const site = siteEntry.data;
+const hero = homeEntry.data.hero;
+
+// E.164 digits only: no "+", no leading zero. Message is URL-encoded.
+const whatsappHref =
+  `https://wa.me/${site.contact.whatsapp_number}` +
+  `?text=${encodeURIComponent(site.contact.whatsapp_default_message)}`;
 ---
 
 <!doctype html>
@@ -8,9 +19,14 @@ import '../styles/global.css';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Senyum Sehat</title>
+    <title>{site.business_name}</title>
   </head>
   <body>
-    <SmokeTest />
+    <Hero
+      headline={hero.headline}
+      subheadline={hero.subheadline}
+      ctaLabel={hero.cta_label}
+      whatsappHref={whatsappHref}
+    />
   </body>
 </html>
