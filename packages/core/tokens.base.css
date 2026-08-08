@@ -9,11 +9,71 @@
  * `initial` is deliberate: this file defines names, not colours.
  * A site that fails to define its own values renders transparent
  * placeholders — the failure is loud, not silent.
+ *
+ * Namespaces cover: colour roles, type scale, spacing, radius, shadow,
+ * border width, motion (duration + easing), and imagery treatment
+ * (overlay colour/opacity, aspect ratios, grade filter). Imagery
+ * treatment is a token, not a per-image decision — it is the axis that
+ * decides the stranger test more than hue does.
  */
 @theme {
+  /* colour roles */
   --color-primary: initial;
   --color-surface: initial;
+  --color-surface-alt: initial;
   --color-ink: initial;
+  --color-muted: initial;
+  --color-accent: initial;
+  --color-line: initial;
+  --color-overlay: initial;
+  --opacity-overlay: initial;
+
+  /* fonts */
   --font-display: initial;
   --font-body: initial;
+
+  /* type scale (size + line-height pairs → text-* utilities) */
+  --text-display: initial;
+  --text-display--line-height: initial;
+  --text-h2: initial;
+  --text-h2--line-height: initial;
+  --text-h3: initial;
+  --text-h3--line-height: initial;
+  --text-body: initial;
+  --text-body--line-height: initial;
+  --text-small: initial;
+  --text-small--line-height: initial;
+
+  /* spacing scale (p-*, py-*, gap-* …) */
+  --spacing-section: initial;
+  --spacing-card: initial;
+  --spacing-gutter: initial;
+
+  /* radius */
+  --radius-card: initial;
+  --radius-button: initial;
+  --radius-image: initial;
+
+  /* shadow */
+  --shadow-card: initial;
+
+  /* border width */
+  --border-width-card: initial;
+
+  /* motion (note: Tailwind v4 namespace is --transition-duration) */
+  --transition-duration-fast: initial;
+  --transition-duration-slow: initial;
+  --ease-standard: initial;
+  --ease-enter: initial;
+
+  /* imagery treatment */
+  --aspect-card: initial;
+  --aspect-hero: initial;
+  --image-grade: initial;
+}
+
+/* The imagery grade/filter is a token too — consumed as a utility so
+ * components never write a literal filter. */
+@utility image-grade {
+  filter: var(--image-grade);
 }

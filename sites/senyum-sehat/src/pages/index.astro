@@ -1,17 +1,18 @@
 ---
+import '@fontsource-variable/plus-jakarta-sans';
 import Hero from '@wps/core/components/Hero.astro';
+import ServicesGrid from '@wps/core/components/ServicesGrid.astro';
 import { getCollection } from 'astro:content';
+import heroImg from '../assets/hero.jpg';
 import '../styles/global.css';
 
 const [siteEntry] = await getCollection('site');
 const [homeEntry] = await getCollection('home');
 const site = siteEntry.data;
 const hero = homeEntry.data.hero;
-// TEMP (Phase 2 image() proof): queried so the shared factory's image()
-// fields are exercised at build. Replaced by ServicesGrid in Phase 4.
-const services = (await getCollection('services')).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+const services = (await getCollection('services'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((s) => ({ title: s.data.title, summary: s.data.summary, image: s.data.image }));
 
 // E.164 digits only: no "+", no leading zero. Message is URL-encoded.
 const whatsappHref =
@@ -24,16 +25,16 @@ const whatsappHref =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{site.business_name}</title>
+    <title>{site.name}</title>
   </head>
   <body>
     <Hero
       headline={hero.headline}
       subheadline={hero.subheadline}
+      image={heroImg}
       ctaLabel={hero.cta_label}
       whatsappHref={whatsappHref}
     />
-    <!-- TEMP (Phase 2 image() proof): replaced by ServicesGrid in Phase 4 -->
-    {services.slice(0, 1).map((s) => <img src={s.data.image.src} alt={s.data.title} />)}
+    <ServicesGrid intro={homeEntry.data.services_intro} services={services} />
   </body>
 </html>

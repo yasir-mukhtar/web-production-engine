@@ -1,9 +1,12 @@
 ---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
   headline: string;
   subheadline: string;
-  /** Optional for now; wired to astro:assets in a later phase. */
-  image?: { src: string; alt: string };
+  /** Code-level per-site asset (not CMS-editable); decorative → alt "" */
+  image?: ImageMetadata;
   ctaLabel: string;
   whatsappHref: string;
 }
@@ -11,16 +14,30 @@ interface Props {
 const { headline, subheadline, image, ctaLabel, whatsappHref } = Astro.props;
 ---
 
-<section class="bg-surface text-ink">
-  <div class="mx-auto max-w-3xl px-6 py-16">
-    <h1 class="font-display text-4xl font-semibold leading-tight">{headline}</h1>
-    <p class="mt-4 text-lg leading-relaxed">{subheadline}</p>
-    {image && <img src={image.src} alt={image.alt} class="mt-8 w-full" />}
+<section class="relative overflow-hidden bg-surface text-ink">
+  {image && (
+    <div class="absolute inset-0" aria-hidden="true">
+      <Picture
+        src={image}
+        widths={[640, 1024, 1600]}
+        sizes="100vw"
+        formats={['avif', 'webp']}
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        class="image-grade h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-overlay opacity-overlay" />
+    </div>
+  )}
+  <div class="relative mx-auto max-w-5xl px-6 py-24 md:py-36">
+    <h1 class="font-display text-display">{headline}</h1>
+    <p class="mt-6 max-w-2xl font-body text-body text-muted">{subheadline}</p>
     <a
       href={whatsappHref}
-      class="mt-8 inline-block bg-primary px-6 py-3 font-semibold text-surface"
       target="_blank"
       rel="noopener"
+      class="mt-10 inline-block rounded-button bg-primary px-8 py-4 font-body text-body font-semibold text-surface duration-fast ease-standard hover:opacity-90"
     >
       {ctaLabel}
     </a>

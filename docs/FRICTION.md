@@ -215,3 +215,39 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
 - **What I did instead:** `devDependencies: { astro: ^6.4.8 }` in core —
   runtime consumers bring their own astro, so dev is the right bucket.
 - **Would this get worse at 40 sites?** No — one line in the core package.
+
+### [P3] Astro 6.4 `<Picture>` takes `src`, not `image`
+- **Contract stressed:** Component
+- **What happened:** `image={...}` (the Astro 5 API) silently resolved to
+  an undefined src — the build error said "Received undefined" while the
+  serialized options still showed the image object, which made the cause
+  hard to see. `components/Picture.astro` in 6.4.8 reads `props.src`
+  (line 64: `resolveSrc(props.src)`).
+- **What I did instead:** renamed the prop to `src` in Hero and
+  ServicesGrid; verified against the installed component source.
+- **Would this get worse at 40 sites?** No — one-time per template, but
+  the error message is misleading enough to cost a debugging cycle every
+  time it is rediscovered.
+
+### [P3] Astro 6 needs `sharp` as an explicit project dependency
+- **Contract stressed:** Operations
+- **What happened:** Image generation failed at build with MissingSharp —
+  Astro 6 no longer guarantees sharp is resolvable from the project, even
+  though it sits in the pnpm store as an optional dependency.
+- **What I did instead:** added `sharp: ^0.34.5` to both sites'
+  dependencies.
+- **Would this get worse at 40 sites?** No — one line in the site
+  template, but a missing sharp breaks EVERY build with a confusing error.
+
+### [P3] Tailwind v4 duration namespace is `--transition-duration-*`
+- **Contract stressed:** Token
+- **What happened:** `--duration-fast/slow` in @theme produced no
+  `duration-*` utilities (verified by grepping the built CSS and the
+  minified utility registration: `duration` resolves
+  `--transition-duration`, while `ease` resolves `--ease`). The site
+  rendered fine — the hover transition just silently fell back to 150ms.
+  Silent, exactly like the @source failure in Phase 0.
+- **What I did instead:** renamed the two motion duration tokens to
+  `--transition-duration-fast/slow` in base + both sites.
+- **Would this get worse at 40 sites?** No — the token name lives in the
+  base file, so it is fixed once for everyone.

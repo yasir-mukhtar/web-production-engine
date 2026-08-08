@@ -1,13 +1,62 @@
 /*
  * sites/senyum-sehat/src/styles/tokens.css
  * Klinik Gigi Senyum Sehat — light, warm, high-trust.
- * Humanist sans, warm teal on warm paper.
+ * Humanist sans, warm teal on warm paper, large radius, soft shadows,
+ * generous line-height, gentle easing. Bright soft warm imagery.
  * Imported AFTER packages/core/tokens.base.css so these values win.
  */
 @theme {
+  /* colour roles */
   --color-primary: #0f766e;
   --color-surface: #faf6ef;
+  --color-surface-alt: #f4ede2;
   --color-ink: #1f2e2b;
-  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --color-muted: #5c6b67;
+  --color-accent: #e8a05c;
+  --color-line: #e7dfd0;
+  --color-overlay: #f7efe2;
+  --opacity-overlay: 0.18;
+
+  /* fonts */
+  --font-display: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* type scale */
+  --text-display: clamp(2.5rem, 5vw, 4rem);
+  --text-display--line-height: 1.08;
+  --text-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --text-h2--line-height: 1.15;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.35;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.7;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.55;
+
+  /* spacing */
+  --spacing-section: 6rem;
+  --spacing-card: 1.75rem;
+  --spacing-gutter: 2rem;
+
+  /* radius */
+  --radius-card: 1.5rem;
+  --radius-button: 999px;
+  --radius-image: 1.25rem;
+
+  /* shadow */
+  --shadow-card: 0 24px 48px -24px rgb(31 46 43 / 0.28);
+
+  /* border */
+  --border-width-card: 1px;
+
+  /* motion */
+  --transition-duration-fast: 180ms;
+  --transition-duration-slow: 450ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* imagery treatment */
+  --aspect-card: 4 / 3;
+  --aspect-hero: 16 / 9;
+  --image-grade: none;
 }
