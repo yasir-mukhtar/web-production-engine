@@ -378,3 +378,18 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
 - **Would this get worse at 40 sites?** Yes — 40 splits is 40 sync
   problems. The topology decision is the single biggest open question in
   the PoC, and this phase produced its first concrete evidence.
+
+### [P1] Deploy chain fixes (found at first real deploy)
+- **Contract stressed:** Operations
+- **What happened:** Three silent-ish failures in sequence: (1)
+  wrangler-action's fallback `npm i wrangler` breaks on pnpm's
+  `workspace:` protocol when wrangler isn't a project dependency; (2) my
+  `not_found_handling: "404"` is not in wrangler's schema — the valid
+  values are `single-page-application | 404-page | none` (wrangler's own
+  error named them; verified with a local `--dry-run`).
+- **What I did instead:** added `wrangler` as a site devDependency (the
+  action then uses the pre-installed binary and never runs npm i), and
+  fixed both wrangler.jsonc files to `"404-page"`.
+- **Would this get worse at 40 sites?** No — both fixes live in the site
+  template. The 404-page gotcha belongs in AGENTS.md/OPERATIONS.md so it
+  is never re-guessed.

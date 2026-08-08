@@ -58,6 +58,11 @@ Before adding anything, ask:
   (brew install actionlint). GitHub rejects context misuse (`matrix` in
   job-level `if`, `secrets` in any `if`) at load time with no error
   message — actionlint names the exact line.
+- **Wrangler static assets:** `wrangler` is a site devDependency (the
+  action otherwise runs `npm i`, which breaks on pnpm `workspace:`
+  protocol). `assets.not_found_handling` accepts only
+  `single-page-application | 404-page | none` — not `"404"`. Validate
+  configs locally with `pnpm exec wrangler deploy --dry-run`.
 - Astro 6.4.x, **static output, no adapter**.
 - Tailwind CSS v4.3.x via `@tailwindcss/vite`.
 - Token pipeline (the four load-bearing lines, in `src/styles/global.css`):
