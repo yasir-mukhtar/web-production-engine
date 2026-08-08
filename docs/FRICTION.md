@@ -353,3 +353,28 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
   mechanism is an open problem (§9-A candidate).
 - **Would this get worse at 40 sites?** Yes — every site-local moment is
   invisible to its client unless the CMS supports path-scoped collections.
+
+### [P7] Repo topology: the two-tenant monorepo forced a content split
+- **Contract stressed:** Operations
+- **What happened:** Pages CMS grants access per repository, so an editor
+  invited to the clinic sees the contractor's content too — a client-
+  confidentiality blocker that would confound the editing test. The plan's
+  §9-A constraint became real on day one.
+- **What I did instead:** split the clinic into its own repo
+  (senyum-sehat-cms-test): content/ + media/ copied, image paths rewritten
+  (/public/media/senyum/ → /media/), and a scoped .pages.yml DERIVED from
+  the monorepo's clinic group via a transform script (single media source,
+  7 collections incl. team, 57 fields). The monorepo stays the field
+  source of truth; the scratch .pages.yml is regenerable.
+- **Cost and implication:** the split costs a second repo to keep in sync
+  and forks the clinic's content from its code; it must be regenerated
+  whenever clinic content changes (or the scratch becomes the clinic's
+  real repo). This is direct evidence for §9-A: per-site content repos
+  work and are cheap (one script), but they fork content from code;
+  option (3) — self-hosted Pages CMS with path-scoped permissions — would
+  remove the split entirely; option (2) — per-client repos consuming core
+  as a pinned package — trades fan-out speed for blast-radius control.
+  Decision deferred to site 3, as the plan says.
+- **Would this get worse at 40 sites?** Yes — 40 splits is 40 sync
+  problems. The topology decision is the single biggest open question in
+  the PoC, and this phase produced its first concrete evidence.
