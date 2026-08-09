@@ -45,6 +45,9 @@ Do not editorialise. Just record the want.
 | P2 | baja-nusantara | Client logos | Neither client needs them in scope | — |
 | P6 | both | Promote team[]/projects[] into the shared schema | Rule of Three — the entire point of Phase 6 | Quarantined in site-local with inline schemas |
 | P6 | both | .pages.yml entries for site-local collections | E6.5 forbids them; keeps the shared contract clean | Editors cannot edit site-local content via CMS (logged consequence) |
+| P9 | masryef | Testimonials section | No verifiable public client quotes exist; refused to fabricate content for a real company | Section omitted from composition (composition is per-site); home schema intro fields still filled |
+| P9 | masryef | Email contact field | Not in the shared schema; adding it is a contract migration out of this demo's scope | Footer shows WhatsApp + phone only; email recorded in FRICTION §1 |
+| P9 | masryef | Real client photography | Not available for the demo; generated art is place-until-real-photos | AI-generated Islamic geometric patterns (hero + services) in the client's brand palette |
 
 ---
 
@@ -393,3 +396,78 @@ These are recorded so they are not "discovered" and re-litigated mid-build.
 - **Would this get worse at 40 sites?** No — both fixes live in the site
   template. The 404-page gotcha belongs in AGENTS.md/OPERATIONS.md so it
   is never re-guessed.
+
+### [P9] First real-client prototype (Masryef): core chrome hardcoded Bahasa
+- **Contract stressed:** Component (and Content)
+- **What happened:** Site 4 is an English-language firm in Kuala Lumpur.
+  The shared core baked in Indonesian-market facts: SiteHead hardcoded
+  `og:locale id_ID` and JSON-LD `addressCountry: 'ID'`, and SiteFooter
+  hardcoded "Alamat & jam / Hubungi kami / Telepon / Semua hak
+  dilindungi." The first non-Indonesian client exposed language baked
+  into the shared core.
+- **What I did instead:** made them optional props with Indonesian
+  defaults — `labels` on SiteFooter, `ogLocale`/`countryCode` on
+  SiteHead — so the three spike sites render byte-identical while
+  Masryef passes English + `en_MY`/`MY`. Also extended the SiteHead
+  `businessType` union with `'FinancialService'` (the runbook explicitly
+  anticipates this union growing per client type). A bug in my first
+  pass (prop named `phone`, destructured as `phoneLabel`) shipped
+  "Telepon" to prod once — caught in the live-HTML verification, fixed,
+  redeployed.
+- **Would this get worse at 40 sites?** Yes — every non-Indonesian
+  client would otherwise inherit Bahasa chrome and wrong locale metadata
+  silently. The defaults keep the spike sites stable; the props are the
+  contract's way out.
+
+### [P9] `durasi_estimasi` is clinic-shaped vocabulary chafing on advisory work
+- **Contract stressed:** Content
+- **What happened:** The shared services schema requires
+  `durasi_estimasi`, and ServicesGrid renders `± {value}`. For advisory
+  engagements "± 2–4 weeks" is tolerable but odd, and "± Quarterly"
+  (audit) reads wrong. The field was born for dental procedures
+  ("± 45 menit").
+- **What I did instead:** filled honest engagement lengths; left the
+  render as-is (changing the `±` prefix is a core render change).
+- **Would this get worse at 40 sites?** Yes — the name and prefix will
+  chafe on trade/advisory clients. Candidate for a vocabulary revision
+  (rename, or drop the ± prefix) after three real clients.
+
+### [P9] Site-local content in .pages.yml — overturning the P6 refusal
+- **Contract stressed:** Content / Operations
+- **What happened:** The spike refused .pages.yml entries for site-local
+  collections (P6, E6.5: "keeps the shared contract clean"). Site 4's
+  awards are exactly the content a firm must edit itself — a new award
+  should not require a developer. The P6 refusal was spike-shaped; a
+  real client's signature moment IS its most-editable content.
+- **What I did instead:** added an `accolades-masryef` entry to the
+  masryef group in .pages.yml. The shared schema factory is untouched;
+  the entry is per-client within the masryef group only.
+- **Would this get worse at 40 sites?** No — entries are per-client
+  groups. But this deliberately revises a recorded spike decision and
+  needs the founder's blessing before it becomes the pattern.
+
+### [P9] No email field in the content contract
+- **Contract stressed:** Content
+- **What happened:** Masryef's real primary contact is email
+  (info@masryef.com, from their site), but the shared site schema has
+  only phone + WhatsApp. The site cannot display the client's real
+  contact method.
+- **What I did instead:** left it out — no schema migration in this
+  demo; the footer shows WhatsApp + phone.
+- **Would this get worse at 40 sites?** Yes — email is a universal
+  business fact; the schema omitting it is an original-contract gap
+  (same class as geo in P4). Adding it is a cheap migration but a
+  contract change the founder should sanction.
+
+### [P9] WhatsApp number unverified — E.164 from office line
+- **Contract stressed:** Content
+- **What happened:** Masryef's real site uses a contact form + email, not
+  WhatsApp. The system's CTA is WhatsApp by contract, so I used their
+  office line (+60 3 2697 2692 → 60326972692) as the wa.me target. If
+  that number has no WhatsApp, the link fails with "Phone number shared
+  via url is invalid."
+- **What I did instead:** used the real office number, flagged in the
+  report that it MUST be verified on a real phone at onboarding (the
+  runbook's step, applied).
+- **Would this get worse at 40 sites?** No — it is the standard
+  onboarding verification step, not a system problem.

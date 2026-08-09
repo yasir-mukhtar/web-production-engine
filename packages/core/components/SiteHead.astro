@@ -21,17 +21,26 @@ interface Props {
   pageDescription?: string;
   /** LocalBusiness specialisation — per-site business fact, passed in code.
    *  FINDING (Phase 8 Task 1): this union was site-2-shaped; site 3 needed
-   *  CafeOrCoffeeShop. The vocabulary grows with each real client — a
+   *  CafeOrCoffeeShop; site 4 (Masryef, real client prototype) needed
+   *  FinancialService. The vocabulary grows with each real client — a
    *  Rule-of-Three candidate for moving into the shared schema as content. */
-  businessType: 'Dentist' | 'GeneralContractor' | 'CafeOrCoffeeShop';
+  businessType: 'Dentist' | 'GeneralContractor' | 'CafeOrCoffeeShop' | 'FinancialService';
   /** Absolute base URL; canonical/OG-url/JSON-LD url+logo are emitted only
    *  when it is set (real domains arrive after deploy). */
   baseUrl?: string;
   /** Path of the current page, for canonical. Defaults to homepage. */
   path?: string;
+  /** Language of the site, for Open Graph. Defaults to the Indonesian
+   *  market (first three spike sites); international clients override.
+   *  FINDING (site 4): the spike hardcoded id_ID — a KL client is en_MY. */
+  ogLocale?: string;
+  /** ISO country code for JSON-LD addressCountry. FINDING (site 4): the
+   *  spike hardcoded ID — address lives in content but the country did
+   *  not, so it leaked into code. Default keeps the spike sites identical. */
+  countryCode?: string;
 }
 
-const { site, pageTitle, pageDescription, businessType, baseUrl = '', path = '/' } = Astro.props;
+const { site, pageTitle, pageDescription, businessType, baseUrl = '', path = '/', ogLocale = 'id_ID', countryCode = 'ID' } = Astro.props;
 
 const title = site.seo.title_template.replace('{page}', pageTitle);
 const description = pageDescription ?? site.seo.description;
@@ -50,7 +59,7 @@ const jsonLd = {
     addressLocality: site.address.city,
     addressRegion: site.address.province,
     postalCode: site.address.postal_code,
-    addressCountry: 'ID',
+    addressCountry: countryCode,
   },
   geo: {
     '@type': 'GeoCoordinates',
@@ -77,7 +86,7 @@ const jsonLd = {
 <meta property="og:description" content={description} />
 {baseUrl && <meta property="og:url" content={`${baseUrl}${path}`} />}
 <meta property="og:image" content={baseUrl ? `${baseUrl}${ogImageSrc}` : ogImageSrc} />
-<meta property="og:locale" content="id_ID" />
+<meta property="og:locale" content={ogLocale} />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />

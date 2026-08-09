@@ -13,6 +13,12 @@ media:
     output: /public/media
     rename: safe
     extensions: [jpg, jpeg, png, webp]
+  - name: media-masryef
+    label: "Masryef media"
+    input: sites/masryef/public/media
+    output: /public/media
+    rename: safe
+    extensions: [jpg, jpeg, png, webp]
 
 content:
   # ─────────────────────────── Klinik Gigi Senyum Sehat ───────────────────────────
@@ -601,3 +607,288 @@ content:
             description: "Jawaban jujur dan lengkap, 2–5 kalimat."
             type: text
             required: true
+
+  # ─────────────────────────────── Masryef ───────────────────────────────
+  # Real-client prototype (site 4). English labels — this client's editors
+  # work in English. Note: the spike's kopi-tiga (site 3) was never added
+  # here; the topology friction (per-repo access leaks) is unresolved.
+  - name: masryef
+    label: "Masryef"
+    type: group
+    items:
+      - name: site-masryef
+        label: "Site settings"
+        type: file
+        path: sites/masryef/content/site.yml
+        format: yaml
+        fields:
+          - name: name
+            label: "Company name"
+            description: "Exact legal name of the firm."
+            type: string
+            required: true
+          - name: tagline
+            label: "Tagline"
+            description: "Short phrase shown next to the logo."
+            type: string
+          - name: logo
+            label: "Logo"
+            description: "Logo image. Best under 500 KB."
+            type: image
+            options:
+              media: media-masryef
+          - name: address
+            label: "Address"
+            description: "Full office address."
+            type: object
+            fields:
+              - name: street
+                label: "Street and number"
+                description: "Example: Unit 17-7, Plaza 138, Jalan Ampang"
+                type: string
+                required: true
+              - name: city
+                label: "City"
+                description: "Example: Kuala Lumpur"
+                type: string
+                required: true
+              - name: province
+                label: "State / territory"
+                description: "Example: Wilayah Persekutuan"
+                type: string
+                required: true
+              - name: postal_code
+                label: "Postal code"
+                description: "Example: 50450"
+                type: string
+          - name: geo
+            label: "Map coordinates"
+            description: "Office location for search results. Example: 3.1595, 101.7170"
+            type: object
+            fields:
+              - name: lat
+                label: "Latitude"
+                description: "Latitude of the office."
+                type: number
+              - name: lng
+                label: "Longitude"
+                description: "Longitude of the office."
+                type: number
+          - name: hours
+            label: "Opening hours"
+            description: "Example: Mon–Fri: 9.00–18.00"
+            type: string
+          - name: phone
+            label: "Phone"
+            description: "Office phone with country code. Example: +60 3 2697 2692"
+            type: string
+          - name: socials
+            label: "Social media"
+            description: "Optional links. Leave blank if not used."
+            type: object
+            fields:
+              - name: instagram
+                label: "Instagram"
+                type: string
+              - name: facebook
+                label: "Facebook"
+                type: string
+              - name: tiktok
+                label: "TikTok"
+                type: string
+              - name: linkedin
+                label: "LinkedIn"
+                type: string
+          - name: contact
+            label: "Contact"
+            description: "WhatsApp details used across the site."
+            type: object
+            fields:
+              - name: whatsapp_number
+                label: "WhatsApp number (E.164)"
+                description: "Digits only, no +, no leading zero. Example: 60326972692"
+                type: string
+                required: true
+              - name: whatsapp_default_message
+                label: "Default WhatsApp message"
+                description: "Pre-filled message when a visitor clicks the WhatsApp button."
+                type: string
+          - name: seo
+            label: "SEO"
+            description: "Search engine and social sharing settings."
+            type: object
+            fields:
+              - name: title_template
+                label: "Title template"
+                description: "Page title pattern. {page} is replaced with the page name."
+                type: string
+                required: true
+              - name: description
+                label: "Meta description"
+                description: "2–3 sentences shown in search results."
+                type: text
+                required: true
+              - name: og_image
+                label: "Share image"
+                description: "Image shown when the site is shared on social media."
+                type: image
+                options:
+                  media: media-masryef
+
+      - name: home-masryef
+        label: "Home page"
+        type: file
+        path: sites/masryef/content/home.md
+        format: yaml-frontmatter
+        fields:
+          - name: hero
+            label: "Hero section"
+            description: "The first thing visitors see."
+            type: object
+            fields:
+              - name: headline
+                label: "Headline"
+                type: string
+                required: true
+              - name: subheadline
+                label: "Subheadline"
+                type: text
+                required: true
+              - name: cta_label
+                label: "Button text"
+                type: string
+                required: true
+          - name: services_intro
+            label: "Services section intro"
+            type: object
+            fields:
+              - name: title
+                label: "Section title"
+                type: string
+              - name: description
+                label: "Section description"
+                type: text
+          - name: testimonials_intro
+            label: "Testimonials section intro"
+            description: "Not currently shown on this site (composition is in code)."
+            type: object
+            fields:
+              - name: title
+                label: "Section title"
+                type: string
+              - name: description
+                label: "Section description"
+                type: text
+          - name: faq_intro
+            label: "FAQ section intro"
+            type: object
+            fields:
+              - name: title
+                label: "Section title"
+                type: string
+              - name: description
+                label: "Section description"
+                type: text
+
+      - name: about-masryef
+        label: "About page"
+        type: file
+        path: sites/masryef/content/about.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: "Page title"
+            type: string
+            required: true
+          - name: body
+            label: "Story"
+            description: "The firm's story, credentials and track record."
+            type: rich-text
+          - name: image
+            label: "Page image"
+            type: image
+            options:
+              media: media-masryef
+
+      - name: services-masryef
+        label: "Services"
+        type: collection
+        path: sites/masryef/content/services
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: title
+            label: "Service name"
+            description: "Example: Shariah Review & Audit"
+            type: string
+            required: true
+          - name: summary
+            label: "Summary"
+            description: "One-two sentences shown on the service card."
+            type: text
+            required: true
+          - name: body
+            label: "Full description"
+            type: rich-text
+          - name: image
+            label: "Service image"
+            type: image
+            options:
+              media: media-masryef
+          - name: order
+            label: "Display order"
+            description: "1 = top. Write sequential numbers: 1, 2, 3..."
+            type: number
+            required: true
+          - name: durasi_estimasi
+            label: "Estimated duration"
+            description: "Typical engagement length. Example: 4–8 weeks"
+            type: string
+            required: true
+
+      - name: faq-masryef
+        label: "FAQ"
+        type: collection
+        path: sites/masryef/content/faq
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: question
+            label: "Question"
+            description: "Write it as a client would ask it."
+            type: string
+            required: true
+          - name: answer
+            label: "Answer"
+            description: "Honest, complete answer, 2–5 sentences."
+            type: text
+            required: true
+
+      - name: accolades-masryef
+        label: "Awards & recognition"
+        description: "Site-local content: shown only on this site, editable here."
+        type: collection
+        path: sites/masryef/content/accolades
+        format: yaml-frontmatter
+        filename: "{primary}.md"
+        fields:
+          - name: title
+            label: "Award title"
+            description: "Example: Best Islamic Finance Consultancy"
+            type: string
+            required: true
+          - name: awarder
+            label: "Awarding body"
+            description: "Example: Islamic Finance News Awards (IFN Awards)"
+            type: string
+            required: true
+          - name: year
+            label: "Year"
+            type: number
+            required: true
+          - name: image
+            label: "Award image"
+            description: "Badge or announcement graphic. Best under 1 MB."
+            type: image
+            options:
+              media: media-masryef

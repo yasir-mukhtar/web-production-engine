@@ -1,0 +1,68 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Accolade {
+  title: string;
+  awarder: string;
+  year: number;
+  image: ImageMetadata;
+}
+
+interface Props {
+  /** Authority credentials — one-site business facts (Rule of Three). */
+  credentials: string[];
+  accolades: Accolade[];
+}
+
+const { credentials, accolades } = Astro.props;
+---
+
+<section class="bg-surface-alt py-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="max-w-2xl">
+      <p class="font-body text-small font-semibold uppercase tracking-wider text-accent">Authority & recognition</p>
+      <h2 class="mt-2 font-display tracking-display text-h2 text-ink">Award-winning, regulator-recognised</h2>
+      <p class="mt-4 font-body text-body text-muted">
+        In Islamic finance, credibility is the product. We are registered with the authorities that matter —
+        and the industry has voted, more than once.
+      </p>
+    </div>
+
+    <ul class="mt-10 flex flex-wrap gap-3" aria-label="Registration and membership">
+      {
+        credentials.map((c) => (
+          <li class="flex items-center gap-2 rounded-button border-card border-line bg-surface px-4 py-2 font-body text-small text-ink">
+            <span aria-hidden="true" class="text-accent">✦</span>
+            {c}
+          </li>
+        ))
+      }
+    </ul>
+
+    <ul class="mt-12 grid gap-gutter sm:grid-cols-2 lg:grid-cols-3">
+      {
+        accolades.map((a) => (
+          <li class="flex flex-col overflow-hidden rounded-card border-card border-line bg-surface shadow-card">
+            <div class="aspect-square w-full overflow-hidden border-b border-line bg-surface">
+              <Picture
+                src={a.image}
+                widths={[480, 800]}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                formats={['avif', 'webp']}
+                alt={`${a.title} — ${a.awarder} ${a.year}`}
+                loading="lazy"
+                class="h-full w-full object-contain"
+              />
+            </div>
+            <div class="flex flex-1 flex-col p-card">
+              <h3 class="font-display tracking-display text-h3 text-ink">{a.title}</h3>
+              <p class="mt-2 font-body text-small text-muted">{a.awarder}</p>
+              <p class="mt-1 font-body text-small font-semibold text-accent">{a.year}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

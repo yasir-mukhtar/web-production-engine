@@ -1,0 +1,66 @@
+/*
+ * sites/masryef/src/styles/tokens.css
+ * Masryef — boutique Islamic finance advisory, Kuala Lumpur.
+ * Deep institutional navy on ivory, antique gold accent, editorial serif
+ * (Newsreader) for authority, clean Inter body. Small precise radii, thin
+ * hairlines, restrained motion. A fourth direction, built on the client's
+ * real brand (slate blue + amber arch) — not a blend of the first three.
+ * Imported AFTER packages/core/tokens.base.css so these values win.
+ */
+@theme {
+  /* colour roles */
+  --color-primary: #1b3a5c;
+  --color-surface: #f7f4ec;
+  --color-surface-alt: #efe9db;
+  --color-ink: #1a2430;
+  --color-muted: #5c6b78;
+  --color-accent: #c9a03d;
+  --color-line: #e2dbc9;
+  --color-overlay: #0e2233;
+  --opacity-overlay: 0.15;
+
+  /* fonts */
+  --font-display: "Newsreader Variable", "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --tracking-display: -0.01em;
+
+  /* type scale */
+  --text-display: clamp(2.75rem, 5.5vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-h2: clamp(1.9rem, 3.5vw, 2.6rem);
+  --text-h2--line-height: 1.15;
+  --text-h3: 1.35rem;
+  --text-h3--line-height: 1.3;
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+
+  /* spacing */
+  --spacing-section: 6.5rem;
+  --spacing-card: 1.75rem;
+  --spacing-gutter: 1.5rem;
+
+  /* radius — precise, institutional */
+  --radius-card: 0.25rem;
+  --radius-button: 0.25rem;
+  --radius-image: 0.25rem;
+
+  /* shadow — subtle, refined */
+  --shadow-card: 0 20px 40px -24px rgb(14 34 51 / 0.18);
+
+  /* border */
+  --border-width-card: 1px;
+
+  /* motion — restrained, stately */
+  --transition-duration-fast: 150ms;
+  --transition-duration-slow: 400ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* imagery treatment — light ivory geometry: a gentle grade only, the
+     pattern carries the contrast itself */
+  --aspect-card: 4 / 3;
+  --aspect-hero: 16 / 9;
+  --image-grade: saturate(1.1) contrast(1.05);
+}

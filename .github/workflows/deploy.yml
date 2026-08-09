@@ -26,6 +26,7 @@ jobs:
       senyum-sehat: ${{ steps.filter.outputs.senyum-sehat }}
       baja-nusantara: ${{ steps.filter.outputs.baja-nusantara }}
       kopi-tiga: ${{ steps.filter.outputs.kopi-tiga }}
+      masryef: ${{ steps.filter.outputs.masryef }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -43,6 +44,8 @@ jobs:
               - 'sites/baja-nusantara/**'
             kopi-tiga:
               - 'sites/kopi-tiga/**'
+            masryef:
+              - 'sites/masryef/**'
 
   build:
     name: Build & deploy ${{ matrix.site }}
@@ -51,7 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        site: [senyum-sehat, baja-nusantara, kopi-tiga]
+        site: [senyum-sehat, baja-nusantara, kopi-tiga, masryef]
     # Coarse gate: matrix and secrets are not available in job-level if, so
     # this runs whenever ANYTHING relevant changed; the per-step fine gate
     # below decides which matrix cell actually does work.
@@ -60,7 +63,8 @@ jobs:
       needs.changes.outputs.core == 'true' ||
       needs.changes.outputs['senyum-sehat'] == 'true' ||
       needs.changes.outputs['baja-nusantara'] == 'true' ||
-      needs.changes.outputs['kopi-tiga'] == 'true'
+      needs.changes.outputs['kopi-tiga'] == 'true' ||
+      needs.changes.outputs['masryef'] == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

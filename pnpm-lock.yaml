@@ -76,6 +76,37 @@ importers:
         specifier: ^4.120.0
         version: 4.120.0
 
+  sites/masryef:
+    dependencies:
+      '@fontsource-variable/inter':
+        specifier: ^5.2.5
+        version: 5.3.0
+      '@fontsource-variable/newsreader':
+        specifier: ^5.2.5
+        version: 5.3.0
+      '@tailwindcss/vite':
+        specifier: ^4.3.3
+        version: 4.3.3(vite@7.3.6(jiti@2.7.0)(lightningcss@1.32.0))
+      '@wps/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      astro:
+        specifier: ^6.4.8
+        version: 6.4.8(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.4)
+      sharp:
+        specifier: ^0.34.5
+        version: 0.34.5
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+    devDependencies:
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
+      wrangler:
+        specifier: ^4.120.0
+        version: 4.120.0
+
   sites/senyum-sehat:
     dependencies:
       '@fontsource-variable/plus-jakarta-sans':
@@ -519,6 +550,12 @@ packages:
 
   '@fontsource-variable/fraunces@5.3.0':
     resolution: {integrity: sha512-9BYGySn4AHEJdgp9Z28tQ3X+laJMEOITXkQarZXeloWQZDq5oOvXJ3kDA8c7MGIfpogIaZfjrQBqmda8POOCKA==}
+
+  '@fontsource-variable/inter@5.3.0':
+    resolution: {integrity: sha512-OupL48va4JNofb97w6NYeF9S7W/kHNKM0Er8Dem5nqi4jeOLrVJDoE8tZEpnMJmtkvNbB1EIPPwHcdkF6b1oUA==}
+
+  '@fontsource-variable/newsreader@5.3.0':
+    resolution: {integrity: sha512-rrzYi43qMpbzwuFtf9OkWH8sxAPVPcQQQEwXpPtwaKYeJ8yVg5aLs5kawmo1f2Q1t1M38TLmEKCkGVDsYwgdFw==}
 
   '@fontsource-variable/oswald@5.3.0':
     resolution: {integrity: sha512-sSZzcTeaQGNyZbTVlS4tNNHElK38UktFLqKd6NQDLFCBV27320rQC3kXSZVytYm1PPjKmPxqVaGwqj7LEKUWQw==}
@@ -2405,6 +2442,10 @@ snapshots:
   '@fontsource-variable/archivo@5.3.0': {}
 
   '@fontsource-variable/fraunces@5.3.0': {}
+
+  '@fontsource-variable/inter@5.3.0': {}
+
+  '@fontsource-variable/newsreader@5.3.0': {}
 
   '@fontsource-variable/oswald@5.3.0': {}
 

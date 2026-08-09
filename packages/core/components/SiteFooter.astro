@@ -7,9 +7,28 @@ interface Props {
   phone: string;
   socials: { instagram?: string; facebook?: string; tiktok?: string; linkedin?: string };
   contact: { whatsapp_number: string; whatsapp_default_message: string };
+  /** Chrome labels. FINDING (site 4): the spike hardcoded Bahasa labels —
+   *  the first international client (Masryef, KL) needs English chrome.
+   *  Content-shaped props with Bahasa defaults keep existing sites
+   *  byte-identical. */
+  labels?: {
+    addressTitle?: string;
+    contactTitle?: string;
+    whatsapp?: string;
+    phoneLabel?: string;
+    copyrightSuffix?: string;
+  };
 }
 
-const { name, tagline, address, hours, phone, socials, contact } = Astro.props;
+const { name, tagline, address, hours, phone, socials, contact, labels = {} } = Astro.props;
+
+const {
+  addressTitle = 'Alamat & jam',
+  contactTitle = 'Hubungi kami',
+  whatsapp = 'WhatsApp',
+  phoneLabel = 'Telepon',
+  copyrightSuffix = 'Semua hak dilindungi.',
+} = labels;
 
 const socialLinks = [
   { label: 'Instagram', href: socials.instagram },
@@ -28,7 +47,7 @@ const year = new Date().getFullYear();
       <p class="mt-2 font-body text-small text-muted">{tagline}</p>
     </div>
     <div>
-      <p class="font-display text-small font-semibold uppercase tracking-wider text-muted">Alamat & jam</p>
+      <p class="font-display text-small font-semibold uppercase tracking-wider text-muted">{addressTitle}</p>
       <address class="mt-3 font-body text-small not-italic text-muted">
         {address.street}<br />
         {address.city}, {address.province} {address.postal_code}
@@ -36,9 +55,9 @@ const year = new Date().getFullYear();
       <p class="mt-2 font-body text-small text-muted">{hours}</p>
     </div>
     <div>
-      <p class="font-display text-small font-semibold uppercase tracking-wider text-muted">Hubungi kami</p>
-      <p class="mt-3 font-body text-small text-muted">WhatsApp: {contact.whatsapp_number}</p>
-      <p class="mt-1 font-body text-small text-muted">Telepon: {phone}</p>
+      <p class="font-display text-small font-semibold uppercase tracking-wider text-muted">{contactTitle}</p>
+      <p class="mt-3 font-body text-small text-muted">{whatsapp}: {contact.whatsapp_number}</p>
+      <p class="mt-1 font-body text-small text-muted">{phoneLabel}: {phone}</p>
       {socialLinks.length > 0 && (
         <ul class="mt-3 flex flex-wrap gap-4">
           {socialLinks.map((s) => (
@@ -54,7 +73,7 @@ const year = new Date().getFullYear();
   </div>
   <div class="border-t border-line">
     <p class="mx-auto max-w-6xl px-6 py-5 font-body text-small text-muted">
-      © {year} {name}. Semua hak dilindungi.
+      © {year} {name}. {copyrightSuffix}
     </p>
   </div>
 </footer>

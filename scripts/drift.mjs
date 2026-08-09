@@ -39,7 +39,7 @@ function lineCount(files) {
   }, 0);
 }
 
-const sites = ['senyum-sehat', 'baja-nusantara', 'kopi-tiga'];
+const sites = ['senyum-sehat', 'baja-nusantara', 'kopi-tiga', 'masryef'];
 const rows = [];
 let over = false;
 

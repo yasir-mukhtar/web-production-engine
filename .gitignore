@@ -22,3 +22,6 @@ build/
 
 # Obsidian vault config is machine-local
 .obsidian/
+
+# Hermes agent tool state is machine-local
+.hermes/

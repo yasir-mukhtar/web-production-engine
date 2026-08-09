@@ -1,0 +1,25 @@
+name: "Masryef"
+tagline: "Your trusted partner in Shariah solutions"
+logo: "/public/media/masryef/logo.png"
+address:
+  street: "Unit 17-7, Plaza 138, Jalan Ampang"
+  city: "Kuala Lumpur"
+  province: "Wilayah Persekutuan"
+  postal_code: "50450"
+geo:
+  lat: 3.1595
+  lng: 101.7170
+hours: "Mon–Fri: 9.00–18.00"
+phone: "+60 3 2697 2692"
+socials:
+  instagram: ""
+  facebook: ""
+  tiktok: ""
+  linkedin: "https://www.linkedin.com/company/masryef-group"
+contact:
+  whatsapp_number: "60326972692"
+  whatsapp_default_message: "Hello, I would like to discuss a Shariah advisory engagement with Masryef."
+seo:
+  title_template: "Masryef — {page}"
+  description: "Boutique Islamic finance advisory firm in Kuala Lumpur. Shariah advisory, product structuring, review and audit for banks, fintechs and corporates across Malaysia, Indonesia, the GCC and Central Asia."
+  og_image: "/public/media/masryef/hero.png"
