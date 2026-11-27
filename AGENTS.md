@@ -1,102 +1,133 @@
-# AGENTS.md — AI instruction layer for this repo
+---
+status: active
+authority: operations
+owner: ai-maintained; founder-approved for material policy changes
+purpose: Route every contributor to the smallest authoritative context and define how work is performed.
+answers:
+  - Which context an agent must load for a task
+  - How authority, conflicts, approvals, documentation, and handoff work
+does_not_answer:
+  - Product direction, current product scope, system design, or release thresholds
+authoritative_inputs:
+  - Explicit founder-approved operating decisions
+  - The active documentation authority model
+update_triggers:
+  - A change to agent workflow, context routing, approval boundaries, or documentation governance
+last_reviewed: 2026-08-09
+---
 
-This file is a **product deliverable**, not overhead (plan §11.6). It encodes
-the four contracts (docs/CONTRACTS.md) as build rules that any agent or
-human working in this repo must follow. CONTRACTS.md is the source of truth;
-this file is its working translation.
+# Agent Operating Contract
 
-This is a **spike**, not a product. Nothing is versioned `v1`. The code is
-evidence about whether the architecture holds — not inventory to be reused.
+## Project
 
-## The three-question scope test
+Web Production Engine is a human-directed production system for turning a truthful business brief into a distinctive, effective, owned, and maintainable marketing website. It begins with Indonesian SMBs and aims to combine professional judgment, repeatable production, and AI leverage without treating a generated page or live URL as a complete product.
 
-Before adding anything, ask:
+## First actions in every session
 
-1. **Does a third site need it?** If one site needs it → `site-local/`.
-   If both sites need it, it still does not enter the core until a third
-   would. (Rule of Three.)
-2. **Does it belong in the CMS?** Section order, composition, and layout
-   live in `src/pages/*.astro`, in code. NEVER in content or `.pages.yml`.
-   A `sections:` array is a page builder — the one thing this system must
-   never become.
-3. **Is it on the non-goals list?** Contact form endpoints, blog, pricing,
-   i18n, dark mode, cookie banners, WhatsApp attribution Worker — refused.
-   If it seems obviously missing, write it in `docs/FRICTION.md` and move on.
+1. Read this file.
+2. Read [docs/STATE.md](docs/STATE.md) before planning or changing the project.
+3. Load only the additional context named in the table below.
+4. Inspect the relevant implementation, schema, tests, and recent changes before editing them.
+5. Report any conflict between sources before continuing.
 
-## Hard build rules
+Do not read all documentation by default.
 
-1. **Semantic tokens only in `packages/core`.** `bg-primary`, `text-heading`,
-   `rounded-card`. NEVER `bg-slate-900`, never `#1a1a1a`, never `text-[17px]`,
-   never `p-[23px]`. One literal value silently destroys re-theming.
-2. **Never put layout or section order in the CMS.** Composition lives in
-   each site's `src/pages/index.astro`, in code.
-3. **Site-local quarantine.** Anything only one site needs goes in
-   `sites/<site>/src/site-local/` and counts against that site's drift
-   budget (target < 10%, measured by `scripts/drift.mjs`).
-4. **Never add scope.** No form endpoints, no blog, no newsletter, no cookie
-   banner, no dark mode toggle, no i18n, no sitemap beyond what a phase asks
-   for. Refused wants go in `docs/FRICTION.md`.
-5. **Never guess an API.** Astro 6 / Tailwind 4 / Pages CMS are recent and
-   their syntax changed. Read `node_modules/` or run a one-line experiment.
-   If still unsure, stop and report. A confident wrong import costs more
-   than a question.
-6. **Never mark an eval PASS without running it.** Paste the actual command
-   output. An unrun check reported as passing destroys the value of every
-   check after it.
-7. **Zero client-side JavaScript** unless a component genuinely cannot work
-   without it. FAQ → `<details>`. Mobile nav → `<details>` or a checkbox.
-   If you need JS, say why in the phase report.
-8. **Accessibility is not optional and not per-site.** Real landmarks,
-   visible focus states, alt text on every image, sufficient contrast,
-   semantic headings in order.
+## Active documentation set
 
-## Environment (locked for the PoC)
+| File | Governing question | Load when |
+| --- | --- | --- |
+| [docs/VISION.md](docs/VISION.md) | Why does the product exist, and what must endure? | Product direction, principles, boundaries, or strategy |
+| [docs/PRODUCT.md](docs/PRODUCT.md) | What product are we building now? | Scope, user, capability, or product behavior |
+| [docs/SYSTEM.md](docs/SYSTEM.md) | How does the engine work end to end? | Architecture, workflow, artifacts, agents, approvals, or recovery |
+| [docs/QUALITY.md](docs/QUALITY.md) | What evidence makes a site releasable? | Implementation, QA, release, or quality trade-offs |
+| [docs/STATE.md](docs/STATE.md) | What is true now, and what comes next? | Every planning or continuation task |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | Why was a consequential choice made? | Reconsidering or changing an established choice |
 
-- Node **22.12+** (Astro 6 requires it) — pinned in `engines` and CI.
-- pnpm workspaces: `packages/core`, `sites/*`. Install with `pnpm install`.
-- **Validate `.github/workflows/*` edits with `actionlint` before pushing**
-  (brew install actionlint). GitHub rejects context misuse (`matrix` in
-  job-level `if`, `secrets` in any `if`) at load time with no error
-  message — actionlint names the exact line.
-- **Wrangler static assets:** `wrangler` is a site devDependency (the
-  action otherwise runs `npm i`, which breaks on pnpm `workspace:`
-  protocol). `assets.not_found_handling` accepts only
-  `single-page-application | 404-page | none` — not `"404"`. Validate
-  configs locally with `pnpm exec wrangler deploy --dry-run`.
-- Astro 6.4.x, **static output, no adapter**.
-- Tailwind CSS v4.3.x via `@tailwindcss/vite`.
-- Token pipeline (the four load-bearing lines, in `src/styles/global.css`):
+`README.md` is navigation only and must contain no unique rule.
 
-  ```css
-  @import "tailwindcss";
-  @import "../../../../packages/core/tokens.base.css";  /* NAMES */
-  @import "./tokens.css";                                /* VALUES — after */
-  @source "../../../../packages/core";                   /* v4 needs this */
-  ```
+## Authority and conflict rules
 
-  Token names live in `packages/core/tokens.base.css` inside `@theme`.
-  Token values live in each site's `src/styles/tokens.css` inside `@theme`.
-  A plain `:root` block produces no utility class — silent failure.
-  Paths are relative to the stylesheet: from `sites/<site>/src/styles/` the
-  repo root is **four** levels up.
+Within repository documentation, use this order:
 
-## The two sites
+1. `VISION.md`
+2. `PRODUCT.md`
+3. `SYSTEM.md`
+4. `QUALITY.md`
+5. Active entries in `DECISIONS.md`, within the authority above
+6. `STATE.md` for current facts and priorities, not enduring policy
+7. Milestone plans, task plans, and generated run evidence
 
-- `sites/senyum-sehat` — Klinik Gigi Senyum Sehat, dental clinic, Jakarta
-  Selatan. Light, warm, high-trust; humanist sans; large radius; soft
-  shadows; warm bright photography with faces. Leads with services + team.
-- `sites/baja-nusantara` — CV Baja Nusantara, steel fabrication contractor,
-  Surabaya. Near-black, industrial; condensed display; radius 0; hard
-  edges; high-contrast desaturated photography, duotone over safety-orange,
-  no faces. Leads with completed work + scale.
+Additional rules:
 
-**They must not look like siblings.** That is a success criterion, not a
-stylistic preference. Token values, imagery treatment, composition order,
-and motion all differ — via tokens and `site-local/`, never by forking a
-core component.
+- The founder's explicit current instruction outranks repository documents, but the resulting change must be recorded in the appropriate authoritative file.
+- A `draft` document is not authoritative. It may be used as source material only.
+- Archived concepts, superseded plans, chats, and issue descriptions are sources, not policy.
+- Code, schemas, configuration, and tests are authoritative evidence of implemented behavior. They do not silently override product intent, scope, or quality obligations.
+- When two active sources conflict, stop, name the conflict, recommend which authority should change, and do not invent a compromise.
 
-## Reporting
+## Context loading by task
 
-Every phase ends with the PHASE REPORT format in docs/CONTRACTS.md, and
-appends its friction to docs/FRICTION.md (append-only — never edit an
-earlier entry).
+| Task | Required context after this file |
+| --- | --- |
+| Continue or plan work | `STATE.md` |
+| Change vision, principles, or boundaries | `VISION.md`, `PRODUCT.md`, relevant decisions |
+| Change product scope or behavior | `PRODUCT.md`, relevant parts of `VISION.md`, `STATE.md`, relevant decisions |
+| Change architecture or pipeline | `SYSTEM.md`, `PRODUCT.md`, `STATE.md`, relevant decisions and implementation |
+| Implement a website capability | Relevant `SYSTEM.md` sections, `QUALITY.md`, implementation, schemas, and tests |
+| QA or release | `QUALITY.md`, relevant `SYSTEM.md` sections, current run evidence |
+| Revisit an established choice | Search `DECISIONS.md`, then load the governing document |
+| Update progress | Evidence from the work, then `STATE.md` |
+
+## Non-negotiable operating rules
+
+- Separate verified facts, client-supplied claims, assumptions, recommendations, and approvals.
+- Never invent business facts, evidence, customer proof, access, test results, or implementation state.
+- Use AI for interpretation and production; use deterministic schemas, generators, permissions, and tests where correctness matters.
+- Use one authoritative home for each rule or decision. Link instead of copying.
+- Treat plans as proposals until their decisions enter an authoritative document.
+- Prefer the smallest reversible change that satisfies the active specification.
+- Preserve user work and unrelated changes. Do not make destructive changes without explicit authorization.
+- Never expose or commit secrets. Use least privilege for external systems.
+- Attach evidence to completion claims. If evidence is unavailable, say what remains unverified.
+- Update affected documentation in the same change as a material decision or implementation change.
+- Keep `STATE.md` current and compact; replace stale facts rather than appending history.
+- Add to `DECISIONS.md` only when forgetting the rationale would cause risk or repeated debate.
+
+## Human approval boundaries
+
+An accountable human must approve any action that materially changes:
+
+- what the business claims or promises;
+- product scope, enduring principles, or client commitments;
+- approved strategy or visual direction;
+- production publication, rollback with user impact, domains, or ownership;
+- access, spending, legal obligations, privacy posture, or difficult-to-reverse external state.
+
+Agents may prepare recommendations and reversible drafts without approval. Approval must identify the artifact or revision being approved.
+
+## Documentation writing standard
+
+- Every major document must declare: status, authority, owner, purpose, answers, does not answer, authoritative inputs, update triggers, and last review date.
+- Use `MUST` for invariants and release requirements, `SHOULD` for defaults with allowed exceptions, and `MAY` for optional behavior.
+- Label unsettled matters as assumptions or open questions, never as facts.
+- Prefer concrete outcomes, thresholds, and examples over adjectives such as “modern,” “premium,” or “high quality.”
+- Keep one primary question per document and remove duplicated history.
+- Create a new document only when its subject has an independent lifecycle or cannot be expressed more reliably in code, schemas, tests, or an existing authority.
+
+Soft ceilings: `AGENTS.md` 150 lines, `VISION.md` 250, `PRODUCT.md` 300, `SYSTEM.md` 500, `QUALITY.md` 400, and `STATE.md` 100. Compress before splitting.
+
+## Implementation commands
+
+No build, validation, test, preview, or release command has been verified in the available workspace. Do not invent commands. Add commands here only after they run successfully in the actual repository.
+
+## Completion and handoff
+
+Before claiming a task is complete:
+
+1. Run the relevant verified checks, or state why they could not run.
+2. Review coverage, document boundaries, upstream consistency, and actionability.
+3. Update `STATE.md` when current reality, blockers, or priorities changed.
+4. Append a decision only when the rationale is consequential and durable.
+5. Report the outcome, evidence, files changed, limitations, and next recommended action.
+
+If work stops incomplete, leave a concise handoff in `STATE.md`: last trusted result, current blocker, and exact next action. The repository, not chat history, carries continuity.

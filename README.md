@@ -1,15 +1,13 @@
-# Web Agency
+# Web Production Engine
 
-We are building a proof of concept (PoC) for Website Production System in 24 hours.
-All of your references are in /docs folder. After finish reading this document, read:
-1. [[PoC-Plan]]
-2. [[CONTRACTS]]
+Web Production Engine is a human-directed system for producing truthful, distinctive, effective, owned, and maintainable marketing websites for small businesses.
 
-# Implementation
+## Start here
 
-Implement the plan hase by phase, start from [[Phase 0]] and continue until phase 8.
-But I give you the whole plan as a read-only reference file from the start.
+- Agents: read [AGENTS.md](AGENTS.md), then [docs/STATE.md](docs/STATE.md).
+- Founder: review [docs/VISION.md](docs/VISION.md), [docs/PRODUCT.md](docs/PRODUCT.md), and the current [docs/STATE.md](docs/STATE.md).
+- Architecture and workflow: [docs/SYSTEM.md](docs/SYSTEM.md).
+- Release standard: [docs/QUALITY.md](docs/QUALITY.md).
+- Consequential choices: [docs/DECISIONS.md](docs/DECISIONS.md).
 
-# When a phase fails
-
-Don't re-run the whole phase. Read [[When-Fail]].
+The active documentation is intentionally small. `README.md` is an entry point only; authoritative rules live in the linked files.
